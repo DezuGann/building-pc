@@ -1738,27 +1738,27 @@ export const PCViewer3D: React.FC<PCViewer3DProps> = ({ components, onSelectComp
   return (
     <div className="relative w-full h-full min-h-[520px] flex flex-col bg-slate-950 rounded-2xl overflow-hidden border border-cyan-500/40 shadow-2xl shadow-cyan-950/50">
       {/* 3D Top Status Bar & Viewport Modes */}
-      <div className="absolute top-3 left-3 right-3 z-10 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
+      <div className="absolute top-2.5 left-2.5 right-2.5 z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pointer-events-none">
         {/* Case Badge & WebGL State */}
-        <div className="pointer-events-auto flex items-center gap-2 bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-cyan-500/40 text-xs shadow-lg">
-          <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_#00f0ff]" />
-          <span className="font-semibold text-slate-100">Visor 3D Neón Studio</span>
-          <span className="text-cyan-300 font-mono uppercase font-bold px-2 py-0.5 rounded bg-cyan-950/80 border border-cyan-500/40">
+        <div className="pointer-events-auto flex items-center gap-2 bg-slate-900/90 backdrop-blur-md px-2.5 py-1 rounded-xl border border-cyan-500/40 text-xs shadow-lg flex-shrink-0">
+          <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_#00f0ff]" />
+          <span className="font-semibold text-slate-100 text-[11px] sm:text-xs">Visor 3D Neón Studio</span>
+          <span className="text-cyan-300 font-mono uppercase font-bold text-[10px] px-1.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-500/40">
             {caseType === 'mini_tower' ? 'Mini Tower' : caseType === 'mid_tower' ? 'Mid Tower' : 'Full Tower'}
           </span>
           <span
             ref={fpsSpanRef}
-            className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/40 shadow-[0_0_6px_rgba(16,185,129,0.3)]"
+            className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-950/80 px-1.5 py-0.5 rounded border border-emerald-500/40 shadow-[0_0_6px_rgba(16,185,129,0.3)]"
           >
             60 FPS
           </span>
         </div>
 
-        {/* Camera Preset Toolbar */}
-        <div className="pointer-events-auto flex items-center gap-1.5 bg-slate-900/90 backdrop-blur-md p-1 rounded-xl border border-slate-700/80 text-xs text-slate-200 shadow-xl">
+        {/* Camera Preset Toolbar with horizontal touch scrolling & anti-wrap */}
+        <div className="pointer-events-auto flex items-center gap-1 bg-slate-900/90 backdrop-blur-md p-1 rounded-xl border border-slate-700/80 text-xs text-slate-200 shadow-xl overflow-x-auto no-scrollbar max-w-full flex-nowrap w-full sm:w-auto">
           <button
             onClick={() => setCameraPreset('iso')}
-            className={`px-2.5 py-1 rounded-lg transition-all font-medium ${viewPreset === 'iso'
+            className={`px-2.5 py-1 rounded-lg transition-all font-medium whitespace-nowrap flex-shrink-0 ${viewPreset === 'iso'
                 ? 'bg-cyan-500/25 text-cyan-300 border border-cyan-400/60 shadow-sm'
                 : 'hover:bg-slate-800 text-slate-300'
               }`}
@@ -1769,19 +1769,19 @@ export const PCViewer3D: React.FC<PCViewer3DProps> = ({ components, onSelectComp
           {/* DEDICATED MOTHERBOARD & SOCKETS VIEW */}
           <button
             onClick={() => setCameraPreset('mobo')}
-            className={`flex items-center gap-1.5 px-3 py-1 rounded-lg transition-all font-bold ${viewPreset === 'mobo'
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg transition-all font-bold whitespace-nowrap flex-shrink-0 ${viewPreset === 'mobo'
                 ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/30'
                 : 'bg-cyan-950/60 hover:bg-cyan-900/60 text-cyan-300 border border-cyan-500/40'
               }`}
             title="Vista de cerca a la placa madre, slots de RAM y ranuras M.2"
           >
-            <CircuitBoard className="w-3.5 h-3.5" />
-            <span>Ver Placa & Sockets</span>
+            <CircuitBoard className="w-3.5 h-3.5 flex-shrink-0" />
+            <span>Placa & Sockets</span>
           </button>
 
           <button
             onClick={() => setCameraPreset('side')}
-            className={`px-2.5 py-1 rounded-lg transition-all font-medium ${viewPreset === 'side'
+            className={`px-2 py-1 rounded-lg transition-all font-medium whitespace-nowrap flex-shrink-0 ${viewPreset === 'side'
                 ? 'bg-cyan-500/25 text-cyan-300 border border-cyan-400/60'
                 : 'hover:bg-slate-800 text-slate-300'
               }`}
@@ -1791,7 +1791,7 @@ export const PCViewer3D: React.FC<PCViewer3DProps> = ({ components, onSelectComp
 
           <button
             onClick={() => setCameraPreset('front')}
-            className={`px-2.5 py-1 rounded-lg transition-all font-medium ${viewPreset === 'front'
+            className={`px-2 py-1 rounded-lg transition-all font-medium whitespace-nowrap flex-shrink-0 ${viewPreset === 'front'
                 ? 'bg-cyan-500/25 text-cyan-300 border border-cyan-400/60'
                 : 'hover:bg-slate-800 text-slate-300'
               }`}
@@ -1799,37 +1799,36 @@ export const PCViewer3D: React.FC<PCViewer3DProps> = ({ components, onSelectComp
             Frontal
           </button>
 
-          <div className="w-[1px] h-4 bg-slate-700 mx-1" />
+          <div className="w-[1px] h-3.5 bg-slate-700 mx-0.5 flex-shrink-0" />
 
           {/* Toggle Cooler Dismount */}
           <button
             onClick={() => setCoolerDismounted(!coolerDismounted)}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg transition-all font-semibold ${coolerDismounted
+            className={`flex items-center gap-1 px-2 py-1 rounded-lg transition-all font-semibold whitespace-nowrap flex-shrink-0 ${coolerDismounted
                 ? 'bg-rose-500/25 text-rose-300 border border-rose-500/50 shadow-sm'
                 : 'hover:bg-slate-800 text-slate-300'
               }`}
             title="Desmontar el disipador para ver el procesador y puertos M.2 al descubierto"
           >
-            <Fan className={`w-3.5 h-3.5 ${coolerDismounted ? 'text-rose-400' : 'text-cyan-400'}`} />
+            <Fan className={`w-3.5 h-3.5 flex-shrink-0 ${coolerDismounted ? 'text-rose-400' : 'text-cyan-400'}`} />
             <span>{coolerDismounted ? 'Cooler Desmontado' : 'Cooler'}</span>
           </button>
 
           {/* Toggle Glass Panel */}
           <button
             onClick={() => setGlassOpen(!glassOpen)}
-            className={`flex items-center gap-1 px-2.5 py-1 rounded-lg transition-colors font-medium ${glassOpen ? 'bg-amber-500/25 text-amber-300 border border-amber-500/50' : 'hover:bg-slate-800 text-slate-300'
+            className={`flex items-center gap-1 px-2 py-1 rounded-lg transition-colors font-medium whitespace-nowrap flex-shrink-0 ${glassOpen ? 'bg-amber-500/25 text-amber-300 border border-amber-500/50' : 'hover:bg-slate-800 text-slate-300'
               }`}
             title="Abrir o cerrar el panel de vidrio"
           >
-            <Eye className="w-3.5 h-3.5" />
+            <Eye className="w-3.5 h-3.5 flex-shrink-0" />
             <span>{glassOpen ? 'Vidrio Abierto' : 'Vidrio'}</span>
           </button>
-
 
           {/* Reset Camera */}
           <button
             onClick={() => setCameraPreset('iso')}
-            className="p-1 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white"
+            className="p-1 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white flex-shrink-0"
             title="Restablecer posición"
           >
             <RefreshCw className="w-3.5 h-3.5" />

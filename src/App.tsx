@@ -23,13 +23,14 @@ import { AssistedMode } from './components/AssistedMode';
 import { AtmosphereBackground } from './components/AtmosphereBackground';
 import { SkeletonCockpit } from './components/SkeletonCockpit';
 import { IncompatibilityToastContainer, IncompatibilityNotification } from './components/IncompatibilityToast';
-import { Copy, Check, Play, Sparkles, SlidersHorizontal, Layers, Cpu, Tv, ArrowLeft } from 'lucide-react';
+import { Copy, Check, Play, Sparkles, SlidersHorizontal, Layers, Cpu, Tv, ArrowLeft, Box, Activity } from 'lucide-react';
 
 export function App() {
   const [mode, setMode] = useState<'assisted' | 'free'>('free');
   const [resolution, setResolution] = useState<Resolution>('1440p');
   const [copied, setCopied] = useState(false);
   const [isVisualLoading, setIsVisualLoading] = useState(true);
+  const [mobileTab, setMobileTab] = useState<'3d' | 'components' | 'diagnostics' | 'all'>('3d');
 
   // Initial visual skeleton feed loading effect (~0.9s)
   useEffect(() => {
@@ -257,55 +258,57 @@ export function App() {
       ) : (
         <div className="relative z-10 flex-1 flex flex-col min-h-0 lg:overflow-hidden">
           {/* Preset quick test buttons & Resolution Bar for 3D Workshop */}
-          <div className="bg-slate-900/60 border-b border-cyan-500/20 px-4 py-2 flex-shrink-0">
-            <div className="max-w-[1750px] mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
-              <div className="flex items-center gap-2 text-slate-400">
+          <div className="bg-slate-900/60 border-b border-cyan-500/20 px-3 sm:px-4 py-2 flex-shrink-0">
+            <div className="max-w-[1750px] mx-auto flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 text-xs">
+              <div className="flex items-center gap-2 text-slate-400 overflow-hidden">
                 <button
                   onClick={() => setMode('assisted')}
-                  className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-cyan-950/80 border border-cyan-800 text-cyan-300 hover:bg-cyan-900/80 transition font-semibold"
+                  className="hidden md:flex items-center gap-1.5 px-3 py-1 rounded-lg bg-cyan-950/80 border border-cyan-800 text-cyan-300 hover:bg-cyan-900/80 transition font-semibold flex-shrink-0"
                 >
                   <ArrowLeft className="w-3.5 h-3.5" />
                   <span>Ir a Equipos Armados</span>
                 </button>
-                <div className="h-4 w-px bg-slate-800 mx-1 hidden sm:block" />
-                <Play className="w-3.5 h-3.5 text-cyan-400" />
-                <span className="font-semibold text-slate-300">Pruebas Rápidas:</span>
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="h-4 w-px bg-slate-800 mx-1 hidden md:block" />
+                <Play className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
+                <span className="font-semibold text-slate-300 hidden sm:inline flex-shrink-0">Pruebas:</span>
+
+                {/* Horizontal touch scrollable carousel for test presets */}
+                <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar flex-nowrap py-0.5 flex-1 max-w-full">
                   <button
                     onClick={() => loadScenario('budget')}
-                    className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition"
+                    className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition whitespace-nowrap flex-shrink-0 text-xs"
                   >
-                    💵 Económico (R5 5600 + RX 6600)
+                    💵 Económico <span className="hidden md:inline">(R5 5600 + RX 6600)</span>
                   </button>
                   <button
                     onClick={() => loadScenario('balanced')}
-                    className="px-2.5 py-1 rounded-lg bg-cyan-950/60 border border-cyan-800/50 hover:bg-cyan-900/60 text-cyan-300 transition"
+                    className="px-2.5 py-1 rounded-lg bg-cyan-950/60 border border-cyan-800/50 hover:bg-cyan-900/60 text-cyan-300 transition whitespace-nowrap flex-shrink-0 text-xs"
                   >
-                    🔥 Gama Media (i5-13400F + RTX 5060)
+                    🔥 Gama Media <span className="hidden md:inline">(i5-13400F + RTX 5060)</span>
                   </button>
                   <button
                     onClick={() => loadScenario('extreme')}
-                    className="px-2.5 py-1 rounded-lg bg-purple-950/60 border border-purple-800/50 hover:bg-purple-900/60 text-purple-300 transition"
+                    className="px-2.5 py-1 rounded-lg bg-purple-950/60 border border-purple-800/50 hover:bg-purple-900/60 text-purple-300 transition whitespace-nowrap flex-shrink-0 text-xs"
                   >
-                    ⚡ Gama Alta (7800X3D + RTX 5080)
+                    ⚡ Gama Alta <span className="hidden md:inline">(7800X3D + RTX 5080)</span>
                   </button>
                   <button
                     onClick={() => loadScenario('rtx5090')}
-                    className="px-2.5 py-1 rounded-lg bg-amber-950/60 border border-amber-800/50 hover:bg-amber-900/60 text-amber-300 transition font-bold"
+                    className="px-2.5 py-1 rounded-lg bg-amber-950/60 border border-amber-800/50 hover:bg-amber-900/60 text-amber-300 transition font-bold whitespace-nowrap flex-shrink-0 text-xs"
                   >
-                    👑 Titán 4K (9800X3D + RTX 5090)
+                    👑 Titán 4K <span className="hidden md:inline">(9800X3D + RTX 5090)</span>
                   </button>
                   <button
                     onClick={() => loadScenario('bottleneck_cpu')}
-                    className="px-2.5 py-1 rounded-lg bg-rose-950/40 border border-rose-800/50 hover:bg-rose-900/40 text-rose-300 transition"
+                    className="px-2.5 py-1 rounded-lg bg-rose-950/40 border border-rose-800/50 hover:bg-rose-900/40 text-rose-300 transition whitespace-nowrap flex-shrink-0 text-xs"
                   >
-                    ⚠️ Test Cuello Botella
+                    ⚠️ Cuello Botella
                   </button>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
-                <span className="text-slate-400 font-medium">Resolución Objetivo:</span>
+              <div className="flex items-center justify-between sm:justify-end gap-2 text-xs flex-shrink-0 pt-1 sm:pt-0 border-t border-slate-800/60 sm:border-t-0">
+                <span className="text-slate-400 font-medium">Resolución:</span>
                 <div className="flex bg-slate-950 p-0.5 rounded-lg border border-slate-800">
                   {(['1080p', '1440p', '4k'] as Resolution[]).map((res) => (
                     <button
@@ -330,10 +333,70 @@ export function App() {
             <SkeletonCockpit />
           ) : (
             <main className="max-w-[1750px] mx-auto px-3 sm:px-4 lg:px-6 py-3 flex-1 w-full min-h-0 lg:overflow-hidden flex flex-col">
+              {/* Mobile Navigation Tabs for real smartphones (< lg) */}
+              <div className="lg:hidden bg-slate-900/95 border-b border-slate-800 p-2 mb-3 rounded-2xl flex items-center justify-between gap-1 shadow-md">
+                <button
+                  onClick={() => setMobileTab('3d')}
+                  className={`flex-1 py-1.5 px-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition ${
+                    mobileTab === '3d'
+                      ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/20'
+                      : 'bg-slate-950/80 text-slate-400 hover:text-white border border-slate-800'
+                  }`}
+                >
+                  <Box className="w-3.5 h-3.5" />
+                  <span>Visor 3D</span>
+                </button>
+
+                <button
+                  onClick={() => setMobileTab('components')}
+                  className={`flex-1 py-1.5 px-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition ${
+                    mobileTab === 'components'
+                      ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/20'
+                      : 'bg-slate-950/80 text-slate-400 hover:text-white border border-slate-800'
+                  }`}
+                >
+                  <Cpu className="w-3.5 h-3.5" />
+                  <span>Piezas</span>
+                  <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-cyan-950 text-cyan-300 font-mono">
+                    {Object.values(components).filter(Boolean).length}/8
+                  </span>
+                </button>
+
+                <button
+                  onClick={() => setMobileTab('diagnostics')}
+                  className={`flex-1 py-1.5 px-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition relative ${
+                    mobileTab === 'diagnostics'
+                      ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/20'
+                      : 'bg-slate-950/80 text-slate-400 hover:text-white border border-slate-800'
+                  }`}
+                >
+                  <Activity className="w-3.5 h-3.5" />
+                  <span>Diagnóstico</span>
+                  {compatibilityCount.failed > 0 && (
+                    <span className="w-2 h-2 rounded-full bg-rose-500 ring-2 ring-rose-400/50 animate-ping absolute top-1 right-1" />
+                  )}
+                </button>
+
+                <button
+                  onClick={() => setMobileTab('all')}
+                  className={`py-1.5 px-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition ${
+                    mobileTab === 'all'
+                      ? 'bg-slate-700 text-white'
+                      : 'bg-slate-950/80 text-slate-400 hover:text-white border border-slate-800'
+                  }`}
+                  title="Ver todo en scroll corrido"
+                >
+                  <Layers className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Todo</span>
+                </button>
+              </div>
+
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch flex-1 min-h-0">
               
               {/* COLUMN 1: LEFT COMPONENT DROPDOWNS (Independently scrollable - Extended width for full visibility) */}
-              <div className="lg:col-span-5 xl:col-span-5 2xl:col-span-4 lg:h-full lg:overflow-y-auto pr-1.5 space-y-3">
+              <div className={`lg:col-span-5 xl:col-span-5 2xl:col-span-4 lg:h-full lg:overflow-y-auto pr-1.5 space-y-3 ${
+                mobileTab === 'components' || mobileTab === 'all' ? 'block' : 'max-lg:hidden'
+              }`}>
                 <ComponentDropdowns
                   components={components}
                   onUpdateComponent={handleUpdateComponent}
@@ -343,8 +406,10 @@ export function App() {
               </div>
 
               {/* COLUMN 2: CENTER HARDWARE-ACCELERATED 3D VIEWER (Static & Always in View) */}
-              <div className="lg:col-span-4 xl:col-span-4 2xl:col-span-5 lg:h-full flex flex-col justify-between gap-3 overflow-hidden">
-                <div className="flex-1 min-h-[380px] w-full rounded-2xl overflow-hidden shadow-2xl border border-cyan-500/30">
+              <div className={`lg:col-span-4 xl:col-span-4 2xl:col-span-5 lg:h-full flex flex-col justify-start lg:justify-between gap-3 overflow-hidden ${
+                mobileTab === '3d' || mobileTab === 'all' ? 'flex' : 'max-lg:hidden'
+              }`}>
+                <div className="h-[380px] sm:h-[440px] lg:flex-1 lg:min-h-[380px] w-full rounded-2xl overflow-hidden shadow-2xl border border-cyan-500/30 flex-shrink-0 lg:flex-shrink">
                   <PCViewer3D components={components} />
                 </div>
 
@@ -374,7 +439,9 @@ export function App() {
               </div>
 
               {/* COLUMN 3: RIGHT DIAGNOSTICS & ADVISOR (Independently scrollable) */}
-              <div className="lg:col-span-3 xl:col-span-3 lg:h-full lg:overflow-y-auto pr-1.5 space-y-3.5">
+              <div className={`lg:col-span-3 xl:col-span-3 lg:h-full lg:overflow-y-auto pr-1.5 space-y-3.5 ${
+                mobileTab === 'diagnostics' || mobileTab === 'all' ? 'block' : 'max-lg:hidden'
+              }`}>
                 {/* Case Advisor (Mini / Mid / Full Tower) */}
                 <CaseAdvisor 
                   components={components} 

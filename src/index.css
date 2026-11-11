@@ -41,6 +41,15 @@
   pointer-events: none;
 }
 
+/* Hide scrollbars for clean mobile swiping */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Hardware-accelerated fluid metallic smoke drift */
 @keyframes smokeFloat1 {
   0% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); opacity: 0.20; }
