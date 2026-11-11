@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#07090e] text-slate-100 overflow-x-hidden antialiased;
+  }
+}
+
+/* Facebook-style Shimmer Wave Skeleton Effect */
+@keyframes metallicShimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.shimmer-wave {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-wave::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: metallicShimmer 1.8s infinite;
+  pointer-events: none;
+}
+
+/* Hardware-accelerated fluid metallic smoke drift */
+@keyframes smokeFloat1 {
+  0% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); opacity: 0.20; }
+  50% { transform: translate3d(45px, -30px, 0) scale(1.15) rotate(5deg); opacity: 0.32; }
+  100% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); opacity: 0.20; }
+}
+
+@keyframes smokeFloat2 {
+  0% { transform: translate3d(0, 0, 0) scale(1.1) rotate(0deg); opacity: 0.18; }
+  50% { transform: translate3d(-50px, 40px, 0) scale(0.92) rotate(-6deg); opacity: 0.30; }
+  100% { transform: translate3d(0, 0, 0) scale(1.1) rotate(0deg); opacity: 0.18; }
+}
+
+@keyframes smokeFloat3 {
+  0% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); opacity: 0.22; }
+  50% { transform: translate3d(35px, 25px, 0) scale(1.2) rotate(8deg); opacity: 0.35; }
+  100% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); opacity: 0.22; }
+}
+
+.animate-smoke-1 {
+  animation: smokeFloat1 22s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-smoke-2 {
+  animation: smokeFloat2 28s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-smoke-3 {
+  animation: smokeFloat3 25s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Sleek Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+  border: 1px solid rgba(51, 65, 85, 0.4);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #0ea5e9;
+}
