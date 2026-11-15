@@ -19,13 +19,17 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="bg-slate-950/85 backdrop-blur-md border-b border-slate-800/80 sticky top-0 z-40">
       <div className="w-full max-w-[min(94vw,2200px)] mx-auto px-fluid-layout py-3 flex flex-wrap items-center justify-between gap-4">
 
-        {/* Brand */}
-        <div className="flex items-center space-x-3 cursor-pointer" onClick={onReset}>
-          <div className="w-9 h-9 sm:w-10 sm:h-10 2xl:w-12 2xl:h-12 rounded-xl bg-gradient-to-tr from-cyan-600 via-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-cyan-500/25 text-white font-bold flex-shrink-0 border border-cyan-400/40">
-            <Cpu className="w-5 h-5 2xl:w-6 2xl:h-6" />
+        {/* Brand with Panda Pixel Art Mascot Logo */}
+        <div className="flex items-center space-x-3 cursor-pointer group" onClick={onReset}>
+          <div className="w-10 h-10 sm:w-11 sm:h-11 2xl:w-13 2xl:h-13 rounded-xl bg-slate-900 border border-cyan-500/40 p-1 flex items-center justify-center shadow-lg shadow-cyan-500/25 group-hover:border-cyan-400 group-hover:scale-105 transition-all overflow-hidden flex-shrink-0">
+            <img
+              src="/assets/panda-logo.png"
+              alt="PC Builder Mascot Panda"
+              className="w-full h-full object-contain rounded-lg"
+            />
           </div>
           <div>
-            <span className="font-extrabold text-lg sm:text-xl 2xl:text-2xl tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
+            <span className="font-extrabold text-lg sm:text-xl 2xl:text-2xl tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent group-hover:text-white transition">
               {t.brandName}
             </span>
           </div>
