@@ -103,14 +103,14 @@ export const ComponentShowcaseRibbon: React.FC = () => {
   return (
     <section ref={containerRef} className="relative w-full py-8 overflow-hidden border-y border-slate-800/80 bg-slate-950/50 backdrop-blur-sm">
       {/* Section Header */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+      <div className="max-w-[1720px] 2xl:max-w-[1980px] mx-auto px-4 sm:px-8 lg:px-14 2xl:px-20 mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_#00f0ff]" />
-          <h3 className="text-xs font-mono font-bold uppercase tracking-widest text-slate-300">
+          <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_#00f0ff]" />
+          <h3 className="text-xs 2xl:text-sm font-mono font-bold uppercase tracking-widest text-slate-200">
             {t.showcaseTitle}
           </h3>
         </div>
-        <p className="text-[11px] text-slate-500">
+        <p className="text-[11px] 2xl:text-xs text-slate-400 font-mono">
           {t.showcaseSubtitle}
         </p>
       </div>
@@ -118,33 +118,33 @@ export const ComponentShowcaseRibbon: React.FC = () => {
       {/* Dynamic Right-to-Left Scroll Conveyor Track */}
       <div className="relative w-full overflow-hidden">
         {/* Soft Left & Right Fade Masks */}
-        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#07090e] to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#07090e] to-transparent z-10 pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-0 w-28 bg-gradient-to-r from-[#07090e] to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-28 bg-gradient-to-l from-[#07090e] to-transparent z-10 pointer-events-none" />
 
-        {/* Moving items strip */}
+        {/* Moving items strip with Right-to-Left glide */}
         <div
-          className="flex items-center gap-4 will-change-transform transition-transform duration-100 ease-out py-2"
+          className="flex items-center gap-5 will-change-transform transition-transform duration-100 ease-out py-3"
           style={{
-            transform: `translateX(-${scrollOffset % 1600}px)`,
+            transform: `translateX(-${scrollOffset % 1800}px)`,
           }}
         >
           {items.map((item, index) => (
             <div
               key={index}
-              className={`flex-shrink-0 w-72 sm:w-80 rounded-2xl p-4 border backdrop-blur-md shadow-lg transition-transform duration-300 hover:scale-105 ${item.accent}`}
+              className="flex-shrink-0 w-72 sm:w-84 2xl:w-96 rounded-2xl p-4 2xl:p-5 bg-gradient-to-br from-slate-800/85 via-slate-900/90 to-slate-950/95 border border-slate-700/70 hover:border-cyan-400/60 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.15)] transition-all duration-300 hover:scale-105 hover:-translate-y-1"
             >
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] font-mono font-bold tracking-wider uppercase opacity-80">
+                <span className="text-[10px] 2xl:text-xs font-mono font-bold tracking-wider uppercase text-cyan-400">
                   {item.category}
                 </span>
-                <div className="p-1.5 rounded-lg bg-slate-900/80 border border-slate-700/60">
+                <div className="p-2 rounded-xl bg-slate-950 border border-slate-700/80 text-cyan-300 shadow-inner">
                   {item.icon}
                 </div>
               </div>
-              <h4 className="text-sm font-bold text-white tracking-tight truncate mb-1">
+              <h4 className="text-sm 2xl:text-base font-bold text-white tracking-tight truncate mb-1">
                 {item.name}
               </h4>
-              <p className="text-[11px] text-slate-300/80 truncate font-mono">
+              <p className="text-[11px] 2xl:text-xs text-slate-300/80 truncate font-mono">
                 {item.spec}
               </p>
             </div>
