@@ -24,7 +24,6 @@ import { AtmosphereBackground } from './components/AtmosphereBackground';
 import { SkeletonCockpit } from './components/SkeletonCockpit';
 import { IncompatibilityToastContainer, IncompatibilityNotification } from './components/IncompatibilityToast';
 import { HeroSection } from './components/HeroSection';
-import { ComponentShowcaseRibbon } from './components/ComponentShowcaseRibbon';
 import { useLanguage } from './context/LanguageContext';
 import { Copy, Check, Play, Sparkles, SlidersHorizontal, Layers, Cpu, Tv, ArrowLeft, Box, Activity, ActivitySquare } from 'lucide-react';
 
@@ -273,9 +272,6 @@ export function App() {
             onExploreClick={scrollToWorkshop}
             onPrebuiltClick={() => setMode('assisted')}
           />
-
-          {/* SECCIÓN 2: VITRINA DE COMPONENTES CON DESPLAZAMIENTO HORIZONTAL DINÁMICO */}
-          <ComponentShowcaseRibbon />
 
           {/* Preset quick test buttons & Resolution Bar for 3D Workshop */}
           <div id="workshop-section" className="bg-slate-950/80 border-y border-slate-800/80 px-fluid-layout py-3 backdrop-blur-md">
