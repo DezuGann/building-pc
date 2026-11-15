@@ -32,17 +32,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick, onPreb
       {/* 2. Contenedor de contenido sin marcos ni textos innecesarios */}
       <div className="relative z-10 w-full max-w-[min(94vw,2200px)] mx-auto flex flex-col items-start text-left space-y-6 sm:space-y-8 lg:space-y-10 max-w-4xl lg:max-w-5xl">
         
-        {/* Distintivo de Tecnología de Vanguardia */}
-        <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-slate-900/80 border border-slate-600/60 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.6),inset_0_1px_0_0_rgba(255,255,255,0.25)]">
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-400 shadow-[0_0_10px_#22d3ee]"></span>
-          </span>
-          <span className="text-xs sm:text-sm font-mono font-bold tracking-widest text-slate-200 uppercase">
-            {t.heroBadge}
-          </span>
-        </div>
-
         {/* Título de Pantalla Principal - Escala Fluida Auto-detectable */}
         <h1 className="text-fluid-title font-black tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]">
           <span className="text-metallic-silver">{t.heroTitlePrefix} </span>
