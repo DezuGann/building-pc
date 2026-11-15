@@ -5,7 +5,7 @@ export type TranslationSchema = Record<keyof typeof TRANSLATIONS['es'], string>;
 export const TRANSLATIONS = {
   es: {
     // Header & Brand
-    brandName: 'PC Builder 3D',
+    brandName: 'PC Builder',
     modeWorkshop: 'Taller 3D',
     modePrebuilt: 'Equipos Armados',
     backToPrebuilt: 'Ir a Equipos Armados',
@@ -94,7 +94,7 @@ export const TRANSLATIONS = {
   },
   en: {
     // Header & Brand
-    brandName: 'PC Builder 3D',
+    brandName: 'PC Builder',
     modeWorkshop: '3D Workshop',
     modePrebuilt: 'Prebuilt PCs',
     backToPrebuilt: 'Go to Prebuilts',
