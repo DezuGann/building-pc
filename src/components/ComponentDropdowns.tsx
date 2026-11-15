@@ -54,15 +54,15 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
 }) => {
   const { t } = useLanguage();
 
-  // Helper to determine tower badge color
+  // Helper to determine tower badge color (Metallic Slate / Steel)
   const getTowerBadge = (caseType: CaseType) => {
     switch (caseType) {
       case 'mini_tower':
-        return { label: 'Mini Tower', color: 'bg-emerald-950 text-emerald-400 border-emerald-500/40' };
+        return { label: 'Mini Tower', color: 'bg-slate-800 text-slate-300 border-slate-700' };
       case 'mid_tower':
-        return { label: 'Mid Tower', color: 'bg-cyan-950 text-cyan-400 border-cyan-500/40' };
+        return { label: 'Mid Tower', color: 'bg-slate-800 text-slate-200 border-slate-600' };
       case 'full_tower':
-        return { label: 'Full Tower', color: 'bg-purple-950 text-purple-400 border-purple-500/40' };
+        return { label: 'Full Tower', color: 'bg-slate-700 text-white border-slate-500' };
     }
   };
 
@@ -85,7 +85,6 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
   };
 
   const handleAddDrive = () => {
-    // Determine smart default for next drive: if 1 drive exists, suggest SATA SSD; if 2, HDD 3.5"
     let defaultDrive = STORAGE_CATALOG[0];
     if (currentDrives.length === 1) {
       defaultDrive = STORAGE_CATALOG.find((d) => d.driveType === 'SATA SSD') || STORAGE_CATALOG[0];
@@ -104,16 +103,16 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
   };
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-2.5">
       {/* Header bar of the list */}
       <div className="flex flex-col gap-1 px-1">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <h2 className="text-sm font-bold text-slate-100 tracking-tight flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+            <h2 className="text-sm font-bold text-slate-200 tracking-tight flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
               {t.configHeader}
             </h2>
-            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-slate-800 text-cyan-300 border border-slate-700/80 whitespace-nowrap">
+            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/80 whitespace-nowrap">
               {selectedCount}/8 {t.partsCount}
             </span>
           </div>
@@ -123,7 +122,7 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
               <button
                 type="button"
                 onClick={onResetBuild}
-                className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 text-[11px] font-semibold transition"
+                className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 text-[11px] font-medium transition"
                 title="Reiniciar selección"
               >
                 <RotateCcw className="w-3 h-3 text-slate-400" />
@@ -134,10 +133,10 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
             {onAutoRecommendRemaining && components.cpu && components.gpu && (
               <button
                 onClick={onAutoRecommendRemaining}
-                className="flex items-center gap-1 px-2.5 py-1 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-[11px] font-bold rounded-lg shadow-md shadow-cyan-600/30 transition-all hover:scale-105 active:scale-95"
+                className="flex items-center gap-1 px-2.5 py-1 bg-gradient-to-r from-slate-200 via-slate-100 to-slate-300 hover:from-white hover:to-slate-200 text-slate-950 text-[11px] font-bold rounded-lg shadow-sm border border-slate-300/80 transition-all hover:scale-105 active:scale-95"
                 title="Auto-seleccionar el resto de piezas equilibradas"
               >
-                <Sparkles className="w-3 h-3 flex-shrink-0" />
+                <Sparkles className="w-3 h-3 flex-shrink-0 text-slate-950" />
                 <span>{t.btnAutoComplete}</span>
               </button>
             )}
@@ -146,18 +145,18 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
       </div>
 
       {/* 1. CPU (PROCESADOR) */}
-      <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700/60 hover:border-cyan-500/50 rounded-xl p-3 transition-colors shadow-md shadow-black/30">
+      <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800 hover:border-slate-600 rounded-xl p-3 transition-colors shadow-sm">
         <div className="flex items-center justify-between mb-1.5">
-          <label className="flex items-center gap-2 text-xs font-semibold text-cyan-400">
-            <Cpu className="w-4 h-4 text-cyan-400" />
+          <label className="flex items-center gap-2 text-xs font-semibold text-slate-200">
+            <Cpu className="w-4 h-4 text-slate-400" />
             <span>{t.catCpu}</span>
           </label>
           {components.cpu && (
             <div className="flex items-center gap-1.5">
-              <span className="text-[11px] font-mono text-cyan-300 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-500/30">
+              <span className="text-[11px] font-mono text-slate-300 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700/60">
                 {components.cpu.socket} • {components.cpu.tdpWatts}W
               </span>
-              <span className="text-[11px] font-mono font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/40">
+              <span className="text-[11px] font-mono font-bold text-slate-100 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">
                 ${components.cpu.priceUsd} USD
               </span>
             </div>
@@ -170,7 +169,7 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
               const item = CPUS_CATALOG.find((c) => c.id === e.target.value);
               onUpdateComponent('cpu', item);
             }}
-            className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 rounded-lg px-3 py-2 text-sm text-slate-200 font-medium transition-colors"
+            className="w-full bg-slate-950 border border-slate-800 focus:border-slate-500 focus:ring-1 focus:ring-slate-500 rounded-lg px-3 py-2 text-sm text-slate-200 font-medium transition-colors"
           >
             <option value="">-- Selecciona un Procesador --</option>
             {CPUS_CATALOG.map((c) => (
@@ -194,24 +193,24 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
             <span>Boost: <b className="text-slate-200">{components.cpu.boostClockGhz} GHz</b></span>
             <span>Memoria: <b className="text-slate-200">{components.cpu.memoryType}</b></span>
             <span>Pico Máx: <b className="text-slate-200">{components.cpu.maxPowerWatts || components.cpu.tdpWatts}W</b></span>
-            <span>Precio ref: <b className="text-emerald-400 font-mono">${components.cpu.priceUsd} USD</b></span>
+            <span>Precio ref: <b className="text-slate-200 font-mono font-bold">${components.cpu.priceUsd} USD</b></span>
           </div>
         )}
       </div>
 
       {/* 2. GPU (TARJETA GRÁFICA) */}
-      <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700/60 hover:border-cyan-500/50 rounded-xl p-3 transition-colors shadow-md shadow-black/30">
+      <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800 hover:border-slate-600 rounded-xl p-3 transition-colors shadow-sm">
         <div className="flex items-center justify-between mb-1.5">
-          <label className="flex items-center gap-2 text-xs font-semibold text-cyan-400">
-            <Tv className="w-4 h-4 text-cyan-400" />
+          <label className="flex items-center gap-2 text-xs font-semibold text-slate-200">
+            <Tv className="w-4 h-4 text-slate-400" />
             <span>{t.catGpu}</span>
           </label>
           {components.gpu && (
             <div className="flex items-center gap-1.5">
-              <span className="text-[11px] font-mono text-cyan-300 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-500/30">
+              <span className="text-[11px] font-mono text-slate-300 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700/60">
                 {components.gpu.vramGb}GB {components.gpu.vramType}
               </span>
-              <span className="text-[11px] font-mono font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/40">
+              <span className="text-[11px] font-mono font-bold text-slate-100 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">
                 ${components.gpu.priceUsd} USD
               </span>
             </div>
@@ -224,7 +223,7 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
               const item = GPUS_CATALOG.find((g) => g.id === e.target.value);
               onUpdateComponent('gpu', item);
             }}
-            className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 rounded-lg px-3 py-2 text-sm text-slate-200 font-medium transition-colors"
+            className="w-full bg-slate-950 border border-slate-800 focus:border-slate-500 focus:ring-1 focus:ring-slate-500 rounded-lg px-3 py-2 text-sm text-slate-200 font-medium transition-colors"
           >
             <option value="">-- Selecciona una Tarjeta Gráfica --</option>
             {GPUS_CATALOG.map((g) => (
@@ -248,24 +247,24 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
             <span>Consumo: <b className="text-slate-200">{components.gpu.tdpWatts}W</b></span>
             <span>Fuente Mínima: <b className="text-slate-200">{components.gpu.recommendedPsuWatts}W</b></span>
             <span>Conector: <b className="text-slate-200">{components.gpu.powerConnectors}</b></span>
-            <span>Precio ref: <b className="text-emerald-400 font-mono">${components.gpu.priceUsd} USD</b></span>
+            <span>Precio ref: <b className="text-slate-200 font-mono font-bold">${components.gpu.priceUsd} USD</b></span>
           </div>
         )}
       </div>
 
       {/* 3. MOTHERBOARD (PLACA MADRE) */}
-      <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700/60 hover:border-cyan-500/50 rounded-xl p-3 transition-colors shadow-md shadow-black/30">
+      <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800 hover:border-slate-600 rounded-xl p-3 transition-colors shadow-sm">
         <div className="flex items-center justify-between mb-1.5">
-          <label className="flex items-center gap-2 text-xs font-semibold text-cyan-400">
-            <Layers className="w-4 h-4 text-cyan-400" />
+          <label className="flex items-center gap-2 text-xs font-semibold text-slate-200">
+            <Layers className="w-4 h-4 text-slate-400" />
             <span>{t.catMobo}</span>
           </label>
           {components.motherboard && (
             <div className="flex items-center gap-1.5">
-              <span className="text-[11px] font-mono text-cyan-300 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-500/30">
+              <span className="text-[11px] font-mono text-slate-300 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700/60">
                 {components.motherboard.socket} • {components.motherboard.formFactor}
               </span>
-              <span className="text-[11px] font-mono font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/40">
+              <span className="text-[11px] font-mono font-bold text-slate-100 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">
                 ${components.motherboard.priceUsd} USD
               </span>
             </div>
@@ -278,7 +277,7 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
               const item = MOTHERBOARDS_CATALOG.find((m) => m.id === e.target.value);
               onUpdateComponent('motherboard', item);
             }}
-            className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 rounded-lg px-3 py-2 text-sm text-slate-200 font-medium transition-colors"
+            className="w-full bg-slate-950 border border-slate-800 focus:border-slate-500 focus:ring-1 focus:ring-slate-500 rounded-lg px-3 py-2 text-sm text-slate-200 font-medium transition-colors"
           >
             <option value="">-- Selecciona una Placa Madre --</option>
             {MOTHERBOARDS_CATALOG.map((m) => (
@@ -302,24 +301,24 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
             <span>Tipo Memoria: <b className="text-slate-200">{components.motherboard.memoryType}</b></span>
             <span>WiFi: <b className="text-slate-200">{components.motherboard.hasWifi ? 'Sí' : 'No'}</b></span>
             <span>Fases VRM: <b className="text-slate-200">Gama {components.motherboard.vrmQualityTier}</b></span>
-            <span>Precio ref: <b className="text-emerald-400 font-mono">${components.motherboard.priceUsd} USD</b></span>
+            <span>Precio ref: <b className="text-slate-200 font-mono font-bold">${components.motherboard.priceUsd} USD</b></span>
           </div>
         )}
       </div>
 
       {/* 4. COOLER (DISIPADOR) */}
-      <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700/60 hover:border-cyan-500/50 rounded-xl p-3 transition-colors shadow-md shadow-black/30">
+      <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800 hover:border-slate-600 rounded-xl p-3 transition-colors shadow-sm">
         <div className="flex items-center justify-between mb-1.5">
-          <label className="flex items-center gap-2 text-xs font-semibold text-cyan-400">
-            <Fan className="w-4 h-4 text-cyan-400" />
+          <label className="flex items-center gap-2 text-xs font-semibold text-slate-200">
+            <Fan className="w-4 h-4 text-slate-400" />
             <span>{t.catCooler}</span>
           </label>
           {components.cooler && (
             <div className="flex items-center gap-1.5">
-              <span className="text-[11px] font-mono text-cyan-300 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-500/30">
+              <span className="text-[11px] font-mono text-slate-300 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700/60">
                 {components.cooler.coolingType === 'aio_liquid' ? 'Líquida' : 'Aire'}
               </span>
-              <span className="text-[11px] font-mono font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/40">
+              <span className="text-[11px] font-mono font-bold text-slate-100 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">
                 ${components.cooler.priceUsd} USD
               </span>
             </div>
@@ -332,7 +331,7 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
               const item = COOLERS_CATALOG.find((c) => c.id === e.target.value);
               onUpdateComponent('cooler', item);
             }}
-            className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 rounded-lg px-3 py-2 text-sm text-slate-200 font-medium transition-colors"
+            className="w-full bg-slate-950 border border-slate-800 focus:border-slate-500 focus:ring-1 focus:ring-slate-500 rounded-lg px-3 py-2 text-sm text-slate-200 font-medium transition-colors"
           >
             <option value="">-- Selecciona un Disipador --</option>
             {COOLERS_CATALOG.map((c) => (
@@ -356,24 +355,24 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
             <span>Tipo: <b className="text-slate-200">{components.cooler.coolingType === 'aio_liquid' ? 'AIO Líquida' : 'Torre de Aire'}</b></span>
             <span>Disipación: <b className="text-slate-200">Hasta {components.cooler.maxTdpCoolingCapacity}W</b></span>
             <span>Ruido: <b className="text-slate-200">{components.cooler.fanNoiseDb} dB</b></span>
-            <span>Precio ref: <b className="text-emerald-400 font-mono">${components.cooler.priceUsd} USD</b></span>
+            <span>Precio ref: <b className="text-slate-200 font-mono font-bold">${components.cooler.priceUsd} USD</b></span>
           </div>
         )}
       </div>
 
       {/* 5. RAM (MEMORIA RAM) */}
-      <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700/60 hover:border-cyan-500/50 rounded-xl p-3 transition-colors shadow-md shadow-black/30">
+      <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800 hover:border-slate-600 rounded-xl p-3 transition-colors shadow-sm">
         <div className="flex items-center justify-between mb-1.5">
-          <label className="flex items-center gap-2 text-xs font-semibold text-cyan-400">
-            <CircuitBoard className="w-4 h-4 text-cyan-400" />
+          <label className="flex items-center gap-2 text-xs font-semibold text-slate-200">
+            <CircuitBoard className="w-4 h-4 text-slate-400" />
             <span>{t.catRam}</span>
           </label>
           {components.ram && (
             <div className="flex items-center gap-1.5">
-              <span className="text-[11px] font-mono text-cyan-300 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-500/30">
+              <span className="text-[11px] font-mono text-slate-300 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700/60">
                 {components.ram.memoryType} • {components.ram.capacityGb}GB
               </span>
-              <span className="text-[11px] font-mono font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/40">
+              <span className="text-[11px] font-mono font-bold text-slate-100 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">
                 ${components.ram.priceUsd} USD
               </span>
             </div>
@@ -386,7 +385,7 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
               const item = RAM_CATALOG.find((r) => r.id === e.target.value);
               onUpdateComponent('ram', item);
             }}
-            className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 rounded-lg px-3 py-2 text-sm text-slate-200 font-medium transition-colors"
+            className="w-full bg-slate-950 border border-slate-800 focus:border-slate-500 focus:ring-1 focus:ring-slate-500 rounded-lg px-3 py-2 text-sm text-slate-200 font-medium transition-colors"
           >
             <option value="">-- Selecciona Memoria RAM --</option>
             {RAM_CATALOG.map((r) => (
@@ -410,25 +409,25 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
             <span>Latencia: <b className="text-slate-200">CL{components.ram.casLatency}</b></span>
             <span>Módulos: <b className="text-slate-200">{components.ram.modulesCount}x ({components.ram.capacityGb / components.ram.modulesCount}GB c/u)</b></span>
             <span>Velocidad: <b className="text-slate-200">{components.ram.speedMhz} MHz</b></span>
-            <span>Precio ref: <b className="text-emerald-400 font-mono">${components.ram.priceUsd} USD</b></span>
+            <span>Precio ref: <b className="text-slate-200 font-mono font-bold">${components.ram.priceUsd} USD</b></span>
           </div>
         )}
       </div>
 
       {/* 6. STORAGE (ALMACENAMIENTO - MULTI-UNIDADES CON BOTÓN +) */}
-      <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700/60 hover:border-cyan-500/50 rounded-xl p-3 transition-colors shadow-md shadow-black/30 space-y-2.5">
+      <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800 hover:border-slate-600 rounded-xl p-3 transition-colors shadow-sm space-y-2.5">
         <div className="flex items-center justify-between">
-          <label className="flex items-center gap-2 text-xs font-semibold text-cyan-400">
-            <HardDrive className="w-4 h-4 text-cyan-400" />
+          <label className="flex items-center gap-2 text-xs font-semibold text-slate-200">
+            <HardDrive className="w-4 h-4 text-slate-400" />
             <span>{t.catStorage} ({currentDrives.length} {currentDrives.length === 1 ? 'Unidad' : 'Unidades'})</span>
           </label>
           <button
             type="button"
             onClick={handleAddDrive}
-            className="flex items-center gap-1 px-2.5 py-1 bg-cyan-950 hover:bg-cyan-900 text-cyan-300 hover:text-cyan-200 border border-cyan-700/60 rounded-lg text-[11px] font-bold shadow-sm transition hover:scale-105 active:scale-95"
+            className="flex items-center gap-1 px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg text-[11px] font-bold shadow-sm transition hover:scale-105 active:scale-95"
             title="Agregar otra unidad de almacenamiento (SSD NVMe M.2, SATA SSD o HDD 3.5'')"
           >
-            <Plus className="w-3.5 h-3.5 text-cyan-400" />
+            <Plus className="w-3.5 h-3.5 text-slate-300" />
             <span>Agregar Unidad</span>
           </button>
         </div>
@@ -440,7 +439,7 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
             <button
               type="button"
               onClick={handleAddDrive}
-              className="inline-flex items-center gap-1.5 px-3 py-1 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold rounded-lg transition"
+              className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-lg border border-slate-700 transition"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>Instalar Almacenamiento Principal</span>
@@ -452,20 +451,20 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
               const isPrimary = driveIdx === 0;
               const typeBadge =
                 drive.driveType === 'NVMe M.2'
-                  ? 'bg-cyan-950/80 text-cyan-300 border-cyan-700/50'
+                  ? 'bg-slate-800 text-slate-200 border-slate-700'
                   : drive.driveType === 'SATA SSD'
-                  ? 'bg-purple-950/80 text-purple-300 border-purple-700/50'
-                  : 'bg-amber-950/80 text-amber-300 border-amber-700/50';
+                  ? 'bg-slate-800 text-slate-300 border-slate-700'
+                  : 'bg-slate-800 text-slate-400 border-slate-700';
 
               return (
                 <div
                   key={driveIdx}
-                  className="bg-slate-950/90 rounded-lg p-2.5 border border-slate-800/90 hover:border-slate-700 transition"
+                  className="bg-slate-950/80 rounded-lg p-2.5 border border-slate-800 hover:border-slate-700 transition"
                 >
                   <div className="flex items-center justify-between mb-1.5">
                     <div className="flex items-center gap-2">
-                      <span className="text-[11px] font-bold text-slate-200">
-                        {isPrimary ? 'Unidad 1 (Principal - Sistema Operativo)' : `Unidad ${driveIdx + 1} (Secundaria - Juegos / Datos)`}
+                      <span className="text-[11px] font-bold text-slate-300">
+                        {isPrimary ? 'Unidad 1 (Principal - Sistema Operativo)' : `Unidad ${driveIdx + 1} (Secundaria)`}
                       </span>
                       <span className={`text-[10px] font-mono font-semibold px-2 py-0.5 rounded border ${typeBadge}`}>
                         {drive.driveType} • {drive.capacityGb >= 1000 ? `${drive.capacityGb / 1000}TB` : `${drive.capacityGb}GB`}
@@ -475,7 +474,7 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
                     <button
                       type="button"
                       onClick={() => handleRemoveDrive(driveIdx)}
-                      className="p-1 text-slate-400 hover:text-rose-400 hover:bg-rose-950/40 rounded border border-slate-800/60 transition"
+                      className="p-1 text-slate-400 hover:text-rose-400 hover:bg-rose-950/40 rounded border border-slate-800 transition"
                       title={isPrimary && currentDrives.length === 1 ? 'Quitar almacenamiento' : 'Eliminar esta unidad'}
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -488,7 +487,7 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
                       const item = STORAGE_CATALOG.find((s) => s.id === e.target.value);
                       if (item) handleDriveChange(driveIdx, item);
                     }}
-                    className="w-full bg-slate-900 border border-slate-700/80 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 font-medium transition-colors"
+                    className="w-full bg-slate-900 border border-slate-800 focus:border-slate-500 focus:ring-1 focus:ring-slate-500 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 font-medium transition-colors"
                   >
                     <optgroup label="⚡ SSD NVMe M.2 (PCIe 4.0 / 5.0 - Ultra Rápidos)">
                       {STORAGE_CATALOG.filter((s) => s.driveType === 'NVMe M.2').map((s) => (
@@ -516,7 +515,7 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
                   <div className="mt-1.5 text-[10px] text-slate-400 flex flex-wrap items-center gap-x-2.5 gap-y-0.5">
                     <span>Velocidad: <b className="text-slate-200">{drive.readSpeedMbps} MB/s</b></span>
                     <span>Formato: <b className="text-slate-200">{drive.formFactor}</b></span>
-                    <span>Precio ref: <b className="text-emerald-400 font-mono">${drive.priceUsd} USD</b></span>
+                    <span>Precio ref: <b className="text-slate-200 font-mono font-bold">${drive.priceUsd} USD</b></span>
                   </div>
                 </div>
               );
@@ -526,18 +525,18 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
       </div>
 
       {/* 7. PSU (FUENTE DE PODER) */}
-      <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700/60 hover:border-cyan-500/50 rounded-xl p-3 transition-colors shadow-md shadow-black/30">
+      <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800 hover:border-slate-600 rounded-xl p-3 transition-colors shadow-sm">
         <div className="flex items-center justify-between mb-1.5">
-          <label className="flex items-center gap-2 text-xs font-semibold text-cyan-400">
-            <Zap className="w-4 h-4 text-cyan-400" />
+          <label className="flex items-center gap-2 text-xs font-semibold text-slate-200">
+            <Zap className="w-4 h-4 text-slate-400" />
             <span>{t.catPsu}</span>
           </label>
           {components.psu && (
             <div className="flex items-center gap-1.5">
-              <span className="text-[11px] font-mono text-cyan-300 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-500/30">
+              <span className="text-[11px] font-mono text-slate-300 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700/60">
                 {components.psu.wattage}W • {components.psu.efficiencyRating}
               </span>
-              <span className="text-[11px] font-mono font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/40">
+              <span className="text-[11px] font-mono font-bold text-slate-100 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">
                 ${components.psu.priceUsd} USD
               </span>
             </div>
@@ -550,7 +549,7 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
               const item = PSUS_CATALOG.find((p) => p.id === e.target.value);
               onUpdateComponent('psu', item);
             }}
-            className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 rounded-lg px-3 py-2 text-sm text-slate-200 font-medium transition-colors"
+            className="w-full bg-slate-950 border border-slate-800 focus:border-slate-500 focus:ring-1 focus:ring-slate-500 rounded-lg px-3 py-2 text-sm text-slate-200 font-medium transition-colors"
           >
             <option value="">-- Selecciona una Fuente de Poder --</option>
             {PSUS_CATALOG.map((p) => (
@@ -574,16 +573,16 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
             <span>Eficiencia: <b className="text-slate-200">{components.psu.efficiencyRating}</b></span>
             <span>Formato: <b className="text-slate-200">{components.psu.formFactor || 'ATX'}</b></span>
             <span>Modular: <b className="text-slate-200">{components.psu.modularity || 'full-modular'}</b></span>
-            <span>Precio ref: <b className="text-emerald-400 font-mono">${components.psu.priceUsd} USD</b></span>
+            <span>Precio ref: <b className="text-slate-200 font-mono font-bold">${components.psu.priceUsd} USD</b></span>
           </div>
         )}
       </div>
 
       {/* 8. CASE (GABINETE: MINI / MID / FULL TOWER) */}
-      <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700/60 hover:border-cyan-500/50 rounded-xl p-3 transition-colors shadow-md shadow-black/30 relative overflow-hidden">
+      <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800 hover:border-slate-600 rounded-xl p-3 transition-colors shadow-sm relative overflow-hidden">
         <div className="flex items-center justify-between mb-1.5">
-          <label className="flex items-center gap-2 text-xs font-semibold text-cyan-400">
-            <Box className="w-4 h-4 text-cyan-400" />
+          <label className="flex items-center gap-2 text-xs font-semibold text-slate-200">
+            <Box className="w-4 h-4 text-slate-400" />
             <span>{t.catCase}</span>
           </label>
           {components.caseItem && (
@@ -595,7 +594,7 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
               >
                 {getTowerBadge(components.caseItem.caseType).label}
               </span>
-              <span className="text-[11px] font-mono font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/40">
+              <span className="text-[11px] font-mono font-bold text-slate-100 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">
                 ${components.caseItem.priceUsd} USD
               </span>
             </div>
@@ -608,7 +607,7 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
               const item = CASES_CATALOG.find((c) => c.id === e.target.value);
               onUpdateComponent('caseItem', item);
             }}
-            className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 rounded-lg px-3 py-2 text-sm text-slate-200 font-medium transition-colors"
+            className="w-full bg-slate-950 border border-slate-800 focus:border-slate-500 focus:ring-1 focus:ring-slate-500 rounded-lg px-3 py-2 text-sm text-slate-200 font-medium transition-colors"
           >
             <option value="">-- Selecciona un Gabinete --</option>
             {CASES_CATALOG.map((c) => (
@@ -632,7 +631,7 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
             <span>GPU Máx: <b className="text-slate-200">{components.caseItem.maxGpuLengthMm} mm</b></span>
             <span>Cooler Máx: <b className="text-slate-200">{components.caseItem.maxCoolerHeightMm} mm</b></span>
             <span>Placas: <b className="text-slate-200">{components.caseItem.supportedMotherboards.join(', ')}</b></span>
-            <span>Precio ref: <b className="text-emerald-400 font-mono">${components.caseItem.priceUsd} USD</b></span>
+            <span>Precio ref: <b className="text-slate-200 font-mono font-bold">${components.caseItem.priceUsd} USD</b></span>
           </div>
         )}
       </div>

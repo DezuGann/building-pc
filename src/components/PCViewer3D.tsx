@@ -179,17 +179,17 @@ export const PCViewer3D: React.FC<PCViewer3DProps> = ({ components, onSelectComp
     chamberLight.position.set(0.1, 1.2, 0.2);
     scene.add(chamberLight);
 
-    // Neon Accent Lights
-    const cyanNeon = new THREE.PointLight(0x00f0ff, 3.2, 4.5);
-    cyanNeon.position.set(0.3, 1.4, 0.4);
-    scene.add(cyanNeon);
+    // Studio Metallic Specular Lights (Refined Titanium & Cold Steel, no loud neon flood)
+    const metallicSpec1 = new THREE.PointLight(0xf1f5f9, 1.8, 5.0);
+    metallicSpec1.position.set(0.3, 1.4, 0.4);
+    scene.add(metallicSpec1);
 
-    const magentaNeon = new THREE.PointLight(0xd946ef, 2.8, 4.5);
-    magentaNeon.position.set(-0.2, 0.6, 0.3);
-    scene.add(magentaNeon);
+    const metallicSpec2 = new THREE.PointLight(0x94a3b8, 1.2, 5.0);
+    metallicSpec2.position.set(-0.2, 0.6, 0.3);
+    scene.add(metallicSpec2);
 
-    // 6. CYBERNETIC STUDIO GRID FLOOR
-    const gridHelper = new THREE.GridHelper(18, 36, 0x00f0ff, 0x1e3a5f);
+    // 6. METALLIC STUDIO GRID FLOOR
+    const gridHelper = new THREE.GridHelper(18, 36, 0x475569, 0x1e293b);
     gridHelper.position.y = -0.01;
     scene.add(gridHelper);
 
@@ -507,24 +507,27 @@ export const PCViewer3D: React.FC<PCViewer3DProps> = ({ components, onSelectComp
     });
 
     const neonCyanMat = new THREE.MeshStandardMaterial({
-      color: 0x00f0ff,
-      emissive: 0x00f0ff,
-      emissiveIntensity: 1.1,
-      roughness: 0.1
+      color: 0x94a3b8,
+      emissive: 0x38bdf8,
+      emissiveIntensity: 0.35,
+      metalness: 0.85,
+      roughness: 0.2
     });
 
     const neonMagentaMat = new THREE.MeshStandardMaterial({
-      color: 0xd946ef,
-      emissive: 0xd946ef,
-      emissiveIntensity: 1.0,
-      roughness: 0.1
+      color: 0x64748b,
+      emissive: 0xcbd5e1,
+      emissiveIntensity: 0.25,
+      metalness: 0.9,
+      roughness: 0.25
     });
 
     const neonAmberMat = new THREE.MeshStandardMaterial({
-      color: 0xf59e0b,
-      emissive: 0xf59e0b,
-      emissiveIntensity: 0.9,
-      roughness: 0.1
+      color: 0x94a3b8,
+      emissive: 0xe2e8f0,
+      emissiveIntensity: 0.2,
+      metalness: 0.85,
+      roughness: 0.2
     });
 
     const goldContactsMat = new THREE.MeshStandardMaterial({
@@ -1740,15 +1743,15 @@ export const PCViewer3D: React.FC<PCViewer3DProps> = ({ components, onSelectComp
       {/* 3D Top Status Bar & Viewport Modes */}
       <div className="absolute top-2.5 left-2.5 right-2.5 z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pointer-events-none">
         {/* Case Badge & WebGL State */}
-        <div className="pointer-events-auto flex items-center gap-2 bg-slate-900/90 backdrop-blur-md px-2.5 py-1 rounded-xl border border-cyan-500/40 text-xs shadow-lg flex-shrink-0">
-          <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_#00f0ff]" />
-          <span className="font-semibold text-slate-100 text-[11px] sm:text-xs">Visor 3D Neón Studio</span>
-          <span className="text-cyan-300 font-mono uppercase font-bold text-[10px] px-1.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-500/40">
+        <div className="pointer-events-auto flex items-center gap-2 bg-slate-900/90 backdrop-blur-md px-2.5 py-1 rounded-xl border border-slate-700/80 text-xs shadow-md flex-shrink-0">
+          <div className="w-2 h-2 rounded-full bg-slate-300 shadow-[0_0_6px_rgba(255,255,255,0.4)]" />
+          <span className="font-semibold text-slate-200 text-[11px] sm:text-xs">Taller 3D Studio</span>
+          <span className="text-slate-300 font-mono uppercase font-bold text-[10px] px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700">
             {caseType === 'mini_tower' ? 'Mini Tower' : caseType === 'mid_tower' ? 'Mid Tower' : 'Full Tower'}
           </span>
           <span
             ref={fpsSpanRef}
-            className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-950/80 px-1.5 py-0.5 rounded border border-emerald-500/40 shadow-[0_0_6px_rgba(16,185,129,0.3)]"
+            className="text-[10px] font-mono font-bold text-slate-200 bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700"
           >
             60 FPS
           </span>
@@ -1759,7 +1762,7 @@ export const PCViewer3D: React.FC<PCViewer3DProps> = ({ components, onSelectComp
           <button
             onClick={() => setCameraPreset('iso')}
             className={`px-2.5 py-1 rounded-lg transition-all font-medium whitespace-nowrap flex-shrink-0 ${viewPreset === 'iso'
-                ? 'bg-cyan-500/25 text-cyan-300 border border-cyan-400/60 shadow-sm'
+                ? 'bg-gradient-to-r from-slate-200 to-slate-300 text-slate-950 font-bold border border-white/60 shadow-sm'
                 : 'hover:bg-slate-800 text-slate-300'
               }`}
           >
@@ -1770,8 +1773,8 @@ export const PCViewer3D: React.FC<PCViewer3DProps> = ({ components, onSelectComp
           <button
             onClick={() => setCameraPreset('mobo')}
             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg transition-all font-bold whitespace-nowrap flex-shrink-0 ${viewPreset === 'mobo'
-                ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/30'
-                : 'bg-cyan-950/60 hover:bg-cyan-900/60 text-cyan-300 border border-cyan-500/40'
+                ? 'bg-gradient-to-r from-slate-200 to-slate-300 text-slate-950 font-bold border border-white/60 shadow-sm'
+                : 'bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700/80'
               }`}
             title="Vista de cerca a la placa madre, slots de RAM y ranuras M.2"
           >
@@ -1782,7 +1785,7 @@ export const PCViewer3D: React.FC<PCViewer3DProps> = ({ components, onSelectComp
           <button
             onClick={() => setCameraPreset('side')}
             className={`px-2 py-1 rounded-lg transition-all font-medium whitespace-nowrap flex-shrink-0 ${viewPreset === 'side'
-                ? 'bg-cyan-500/25 text-cyan-300 border border-cyan-400/60'
+                ? 'bg-gradient-to-r from-slate-200 to-slate-300 text-slate-950 font-bold border border-white/60 shadow-sm'
                 : 'hover:bg-slate-800 text-slate-300'
               }`}
           >
@@ -1792,7 +1795,7 @@ export const PCViewer3D: React.FC<PCViewer3DProps> = ({ components, onSelectComp
           <button
             onClick={() => setCameraPreset('front')}
             className={`px-2 py-1 rounded-lg transition-all font-medium whitespace-nowrap flex-shrink-0 ${viewPreset === 'front'
-                ? 'bg-cyan-500/25 text-cyan-300 border border-cyan-400/60'
+                ? 'bg-gradient-to-r from-slate-200 to-slate-300 text-slate-950 font-bold border border-white/60 shadow-sm'
                 : 'hover:bg-slate-800 text-slate-300'
               }`}
           >
@@ -1805,19 +1808,19 @@ export const PCViewer3D: React.FC<PCViewer3DProps> = ({ components, onSelectComp
           <button
             onClick={() => setCoolerDismounted(!coolerDismounted)}
             className={`flex items-center gap-1 px-2 py-1 rounded-lg transition-all font-semibold whitespace-nowrap flex-shrink-0 ${coolerDismounted
-                ? 'bg-rose-500/25 text-rose-300 border border-rose-500/50 shadow-sm'
+                ? 'bg-slate-700 text-white border border-slate-500 shadow-sm'
                 : 'hover:bg-slate-800 text-slate-300'
               }`}
             title="Desmontar el disipador para ver el procesador y puertos M.2 al descubierto"
           >
-            <Fan className={`w-3.5 h-3.5 flex-shrink-0 ${coolerDismounted ? 'text-rose-400' : 'text-cyan-400'}`} />
+            <Fan className="w-3.5 h-3.5 flex-shrink-0 text-slate-400" />
             <span>{coolerDismounted ? 'Cooler Desmontado' : 'Cooler'}</span>
           </button>
 
           {/* Toggle Glass Panel */}
           <button
             onClick={() => setGlassOpen(!glassOpen)}
-            className={`flex items-center gap-1 px-2 py-1 rounded-lg transition-colors font-medium whitespace-nowrap flex-shrink-0 ${glassOpen ? 'bg-amber-500/25 text-amber-300 border border-amber-500/50' : 'hover:bg-slate-800 text-slate-300'
+            className={`flex items-center gap-1 px-2 py-1 rounded-lg transition-colors font-medium whitespace-nowrap flex-shrink-0 ${glassOpen ? 'bg-slate-700 text-white border border-slate-500' : 'hover:bg-slate-800 text-slate-300'
               }`}
             title="Abrir o cerrar el panel de vidrio"
           >

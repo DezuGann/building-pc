@@ -35,7 +35,7 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* Controls: Mode Selector & Language Switcher */}
+        {/* Controls: Mode Selector & Language Switcher (Metallic Design) */}
         <div className="flex items-center gap-2.5 sm:gap-4 flex-wrap">
           {/* Mode Selector Tabs */}
           <div className="flex items-center bg-slate-900/90 p-1 rounded-xl border border-slate-700/80 shadow-inner">
@@ -43,7 +43,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => setMode('free')}
               className={`flex items-center gap-1.5 px-3.5 py-1.5 2xl:px-4 2xl:py-2 rounded-lg text-xs sm:text-sm 2xl:text-base font-semibold transition-all duration-200 ${
                 mode === 'free'
-                  ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold shadow-md shadow-cyan-500/25'
+                  ? 'bg-gradient-to-r from-slate-200 via-slate-100 to-slate-300 text-slate-950 font-bold shadow-sm border border-white/60'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
               }`}
             >
@@ -55,7 +55,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => setMode('assisted')}
               className={`flex items-center gap-1.5 px-3.5 py-1.5 2xl:px-4 2xl:py-2 rounded-lg text-xs sm:text-sm 2xl:text-base font-semibold transition-all duration-200 ${
                 mode === 'assisted'
-                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/25'
+                  ? 'bg-gradient-to-r from-slate-200 via-slate-100 to-slate-300 text-slate-950 font-bold shadow-sm border border-white/60'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
               }`}
             >
@@ -73,7 +73,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => setLang('es')}
               className={`px-2.5 py-1 2xl:px-3 2xl:py-1.5 rounded-lg text-xs 2xl:text-sm font-bold transition-all ${
                 lang === 'es'
-                  ? 'bg-cyan-500 text-slate-950 shadow-sm'
+                  ? 'bg-gradient-to-r from-slate-200 to-slate-300 text-slate-950 shadow-sm'
                   : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
               }`}
               title="Cambiar idioma a Español"
@@ -84,7 +84,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => setLang('en')}
               className={`px-2.5 py-1 2xl:px-3 2xl:py-1.5 rounded-lg text-xs 2xl:text-sm font-bold transition-all ${
                 lang === 'en'
-                  ? 'bg-cyan-500 text-slate-950 shadow-sm'
+                  ? 'bg-gradient-to-r from-slate-200 to-slate-300 text-slate-950 shadow-sm'
                   : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
               }`}
               title="Switch language to English"

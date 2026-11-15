@@ -273,50 +273,50 @@ export function App() {
             onPrebuiltClick={() => setMode('assisted')}
           />
 
-          {/* Preset quick test buttons & Resolution Bar for 3D Workshop */}
-          <div id="workshop-section" className="bg-slate-950/80 border-y border-slate-800/80 px-fluid-layout py-3 backdrop-blur-md">
+          {/* Preset quick test buttons & Resolution Bar for 3D Workshop (Minimalist Metallic) */}
+          <div id="workshop-section" className="bg-slate-950/80 border-y border-slate-800/80 px-fluid-layout py-2.5 backdrop-blur-md">
             <div className="w-full max-w-[min(94vw,2200px)] mx-auto flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 text-xs 2xl:text-sm">
               <div className="flex items-center gap-2.5 text-slate-400 overflow-hidden">
                 <button
                   onClick={() => setMode('assisted')}
-                  className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-950/80 border border-cyan-800 text-cyan-300 hover:bg-cyan-900/80 transition font-semibold flex-shrink-0"
+                  className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-850 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white transition font-medium flex-shrink-0"
                 >
-                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <ArrowLeft className="w-3.5 h-3.5 text-slate-400" />
                   <span>{t.backToPrebuilt}</span>
                 </button>
                 <div className="h-4 w-px bg-slate-800 mx-1 hidden md:block" />
-                <Play className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
+                <Play className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
                 <span className="font-semibold text-slate-300 hidden sm:inline flex-shrink-0">{t.quickTestsLabel}</span>
 
                 {/* Horizontal touch scrollable carousel for test presets */}
                 <div className="flex items-center gap-2 overflow-x-auto no-scrollbar flex-nowrap py-0.5 flex-1 max-w-full">
                   <button
                     onClick={() => loadScenario('budget')}
-                    className="px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-slate-300 hover:text-white transition whitespace-nowrap flex-shrink-0 text-xs 2xl:text-sm font-medium border border-slate-700/60"
+                    className="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white transition whitespace-nowrap flex-shrink-0 text-xs 2xl:text-sm font-medium border border-slate-800"
                   >
-                    {t.scenarioBudget} <span className="hidden md:inline">(R5 5600 + RX 6600)</span>
+                    {t.scenarioBudget} <span className="hidden md:inline text-slate-400">(R5 5600 + RX 6600)</span>
                   </button>
                   <button
                     onClick={() => loadScenario('balanced')}
-                    className="px-3 py-1.5 rounded-lg bg-cyan-950/70 border border-cyan-700/60 hover:bg-cyan-900/70 text-cyan-300 transition whitespace-nowrap flex-shrink-0 text-xs 2xl:text-sm font-medium"
+                    className="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white transition whitespace-nowrap flex-shrink-0 text-xs 2xl:text-sm font-medium border border-slate-800"
                   >
-                    {t.scenarioBalanced} <span className="hidden md:inline">(i5-13400F + RTX 5060)</span>
+                    {t.scenarioBalanced} <span className="hidden md:inline text-slate-400">(i5-13400F + RTX 5060)</span>
                   </button>
                   <button
                     onClick={() => loadScenario('extreme')}
-                    className="px-3 py-1.5 rounded-lg bg-purple-950/70 border border-purple-700/60 hover:bg-purple-900/70 text-purple-300 transition whitespace-nowrap flex-shrink-0 text-xs 2xl:text-sm font-medium"
+                    className="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white transition whitespace-nowrap flex-shrink-0 text-xs 2xl:text-sm font-medium border border-slate-800"
                   >
-                    {t.scenarioExtreme} <span className="hidden md:inline">(7800X3D + RTX 5080)</span>
+                    {t.scenarioExtreme} <span className="hidden md:inline text-slate-400">(7800X3D + RTX 5080)</span>
                   </button>
                   <button
                     onClick={() => loadScenario('rtx5090')}
-                    className="px-3 py-1.5 rounded-lg bg-amber-950/70 border border-amber-700/60 hover:bg-amber-900/70 text-amber-300 transition font-bold whitespace-nowrap flex-shrink-0 text-xs 2xl:text-sm"
+                    className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-slate-200 via-slate-100 to-slate-300 text-slate-950 font-bold whitespace-nowrap flex-shrink-0 text-xs 2xl:text-sm border border-white/60 shadow-sm"
                   >
-                    {t.scenarioTitan} <span className="hidden md:inline">(9800X3D + RTX 5090)</span>
+                    {t.scenarioTitan} <span className="hidden md:inline font-semibold text-slate-800">(9800X3D + RTX 5090)</span>
                   </button>
                   <button
                     onClick={() => loadScenario('bottleneck_cpu')}
-                    className="px-3 py-1.5 rounded-lg bg-rose-950/50 border border-rose-800/60 hover:bg-rose-900/50 text-rose-300 transition whitespace-nowrap flex-shrink-0 text-xs 2xl:text-sm font-medium"
+                    className="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white transition whitespace-nowrap flex-shrink-0 text-xs 2xl:text-sm font-medium border border-slate-800"
                   >
                     {t.scenarioBottleneck}
                   </button>
@@ -325,14 +325,14 @@ export function App() {
 
               <div className="flex items-center justify-between sm:justify-end gap-2.5 text-xs 2xl:text-sm flex-shrink-0 pt-1 sm:pt-0 border-t border-slate-800/60 sm:border-t-0">
                 <span className="text-slate-400 font-medium">{t.resolutionLabel}</span>
-                <div className="flex bg-slate-900 p-0.5 rounded-lg border border-slate-700/80">
+                <div className="flex bg-slate-900 p-0.5 rounded-lg border border-slate-800">
                   {(['1080p', '1440p', '4k'] as Resolution[]).map((res) => (
                     <button
                       key={res}
                       onClick={() => setResolution(res)}
                       className={`px-3 py-1 rounded-md text-xs 2xl:text-sm font-bold uppercase transition-colors ${
                         resolution === res
-                          ? 'bg-cyan-500 text-slate-950 shadow-sm'
+                          ? 'bg-gradient-to-r from-slate-200 to-slate-300 text-slate-950 shadow-sm'
                           : 'text-slate-400 hover:text-slate-200'
                       }`}
                     >
@@ -433,7 +433,7 @@ export function App() {
                   </div>
 
                   {/* Price & Summary quick strip under 3D */}
-                  <div className="bg-slate-900/90 border border-slate-800/80 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-3 shadow-lg">
+                  <div className="bg-slate-900/75 border border-slate-800 rounded-xl p-3 flex flex-wrap items-center justify-between gap-3 shadow-md">
                     <div>
                       <span className="text-[11px] text-slate-400 block font-medium">{t.estimatedBudget}</span>
                       <span className="text-xl font-black text-white">${totalCost} <span className="text-xs text-slate-400 font-normal">USD</span></span>
@@ -442,13 +442,13 @@ export function App() {
                     <div className="flex items-center gap-2">
                       <button
                         onClick={resetBuild}
-                        className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition"
+                        className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition border border-slate-700"
                       >
                         {t.btnClear}
                       </button>
                       <button
                         onClick={copyBuildSummary}
-                        className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-bold transition shadow-lg shadow-cyan-500/20"
+                        className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-slate-200 via-slate-100 to-slate-300 hover:from-white hover:to-slate-200 text-slate-950 text-xs font-bold transition shadow-md border border-slate-300/80"
                       >
                         {copied ? <Check className="w-3.5 h-3.5 text-slate-950" /> : <Copy className="w-3.5 h-3.5" />}
                         <span>{copied ? t.btnCopied : t.btnCopyConfig}</span>
