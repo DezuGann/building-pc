@@ -17,7 +17,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className="bg-slate-950/85 backdrop-blur-md border-b border-slate-800/80 sticky top-0 z-40">
-      <div className="max-w-[1720px] 2xl:max-w-[1980px] mx-auto px-4 sm:px-8 lg:px-14 2xl:px-20 py-3 flex flex-wrap items-center justify-between gap-4">
+      <div className="w-full max-w-[min(94vw,2200px)] mx-auto px-fluid-layout py-3 flex flex-wrap items-center justify-between gap-4">
 
         {/* Brand */}
         <div className="flex items-center space-x-3 cursor-pointer" onClick={onReset}>

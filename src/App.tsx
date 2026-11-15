@@ -278,8 +278,8 @@ export function App() {
           <ComponentShowcaseRibbon />
 
           {/* Preset quick test buttons & Resolution Bar for 3D Workshop */}
-          <div id="workshop-section" className="bg-slate-950/80 border-y border-slate-800/80 px-4 sm:px-8 lg:px-14 2xl:px-20 py-3 backdrop-blur-md">
-            <div className="max-w-[1720px] 2xl:max-w-[1980px] mx-auto flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 text-xs 2xl:text-sm">
+          <div id="workshop-section" className="bg-slate-950/80 border-y border-slate-800/80 px-fluid-layout py-3 backdrop-blur-md">
+            <div className="w-full max-w-[min(94vw,2200px)] mx-auto flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 text-xs 2xl:text-sm">
               <div className="flex items-center gap-2.5 text-slate-400 overflow-hidden">
                 <button
                   onClick={() => setMode('assisted')}
@@ -352,7 +352,7 @@ export function App() {
           {isVisualLoading ? (
             <SkeletonCockpit />
           ) : (
-            <div className="max-w-[1720px] 2xl:max-w-[1980px] mx-auto px-4 sm:px-8 lg:px-14 2xl:px-20 py-8 w-full flex flex-col gap-12">
+            <div className="w-full max-w-[min(94vw,2200px)] mx-auto px-fluid-layout py-8 flex flex-col gap-10">
               
               {/* Mobile Navigation Tabs for real smartphones (< lg) */}
               <div className="lg:hidden bg-slate-900/95 border border-slate-800 p-2 rounded-2xl flex items-center justify-between gap-1 shadow-md">
@@ -431,8 +431,8 @@ export function App() {
                 <div className={`lg:col-span-7 xl:col-span-7 flex flex-col gap-4 ${
                   mobileTab === '3d' || mobileTab === 'all' ? 'flex' : 'max-lg:hidden'
                 }`}>
-                  {/* Visor 3D Neón Studio - Autoajustado para 2K */}
-                  <div className="h-[420px] sm:h-[500px] 2xl:h-[620px] w-full rounded-2xl overflow-hidden shadow-2xl border border-slate-700/80 bg-slate-950/80">
+                  {/* Visor 3D Neón Studio - Autoajustable para 2K y Móvil */}
+                  <div className="h-fluid-viewer w-full rounded-2xl overflow-hidden shadow-2xl border border-slate-700/80 bg-slate-950/80">
                     <PCViewer3D components={components} />
                   </div>
 

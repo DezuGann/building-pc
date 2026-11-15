@@ -103,7 +103,7 @@ export const ComponentShowcaseRibbon: React.FC = () => {
   return (
     <section ref={containerRef} className="relative w-full py-8 overflow-hidden border-y border-slate-800/80 bg-slate-950/50 backdrop-blur-sm">
       {/* Section Header */}
-      <div className="max-w-[1720px] 2xl:max-w-[1980px] mx-auto px-4 sm:px-8 lg:px-14 2xl:px-20 mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+      <div className="w-full max-w-[min(94vw,2200px)] mx-auto px-fluid-layout mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_#00f0ff]" />
           <h3 className="text-xs 2xl:text-sm font-mono font-bold uppercase tracking-widest text-slate-200">

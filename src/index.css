@@ -8,6 +8,46 @@
   }
 }
 
+/* =========================================================================
+   FLUID DYNAMIC AUTO-SCALING SYSTEM (PHONE <-> LAPTOP <-> 2K <-> 4K)
+   ========================================================================= */
+:root {
+  --fluid-title: clamp(2.2rem, 5vw + 0.5rem, 6.8rem);
+  --fluid-subtitle: clamp(0.95rem, 1.25vw + 0.2rem, 1.45rem);
+  --fluid-stat-num: clamp(1.6rem, 2.5vw + 0.4rem, 3.4rem);
+  --fluid-card-max-h: clamp(340px, 38vw, 700px);
+  --fluid-viewer-h: clamp(380px, 35vw, 640px);
+  --fluid-container-px: clamp(1rem, 3.5vw, 5rem);
+}
+
+.text-fluid-title {
+  font-size: var(--fluid-title);
+  line-height: 1.04;
+}
+
+.text-fluid-subtitle {
+  font-size: var(--fluid-subtitle);
+  line-height: 1.6;
+}
+
+.text-fluid-stat {
+  font-size: var(--fluid-stat-num);
+  line-height: 1.1;
+}
+
+.h-fluid-showcase {
+  max-height: var(--fluid-card-max-h);
+}
+
+.h-fluid-viewer {
+  height: var(--fluid-viewer-h);
+}
+
+.px-fluid-layout {
+  padding-left: var(--fluid-container-px);
+  padding-right: var(--fluid-container-px);
+}
+
 /* Facebook-style Shimmer Wave Skeleton Effect */
 @keyframes metallicShimmer {
   0% {
