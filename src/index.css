@@ -9,13 +9,14 @@
 }
 
 /* =========================================================================
-   FLUID DYNAMIC AUTO-SCALING SYSTEM (PHONE <-> LAPTOP <-> 2K <-> 4K)
+   FLUID DYNAMIC AUTO-SCALING SYSTEM (PHONE <-> 1080p <-> 2K <-> 4K)
+   Calculates viewport width AND viewport height (vh) to guarantee fit-to-screen
    ========================================================================= */
 :root {
-  --fluid-title: clamp(2.2rem, 5vw + 0.5rem, 6.8rem);
-  --fluid-subtitle: clamp(0.95rem, 1.25vw + 0.2rem, 1.45rem);
-  --fluid-stat-num: clamp(1.6rem, 2.5vw + 0.4rem, 3.4rem);
-  --fluid-card-max-h: clamp(340px, 38vw, 700px);
+  --fluid-title: clamp(1.85rem, min(4.2vw, 6.2vh), 5.6rem);
+  --fluid-subtitle: clamp(0.85rem, min(1.1vw, 2vh), 1.25rem);
+  --fluid-stat-num: clamp(1.4rem, min(2vw, 3.6vh), 2.8rem);
+  --fluid-card-max-h: clamp(300px, 68vh, 700px);
   --fluid-viewer-h: clamp(380px, 35vw, 640px);
   --fluid-container-px: clamp(1rem, 3.5vw, 5rem);
 }
