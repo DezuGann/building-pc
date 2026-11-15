@@ -23,9 +23,13 @@ import { AssistedMode } from './components/AssistedMode';
 import { AtmosphereBackground } from './components/AtmosphereBackground';
 import { SkeletonCockpit } from './components/SkeletonCockpit';
 import { IncompatibilityToastContainer, IncompatibilityNotification } from './components/IncompatibilityToast';
-import { Copy, Check, Play, Sparkles, SlidersHorizontal, Layers, Cpu, Tv, ArrowLeft, Box, Activity } from 'lucide-react';
+import { HeroSection } from './components/HeroSection';
+import { ComponentShowcaseRibbon } from './components/ComponentShowcaseRibbon';
+import { useLanguage } from './context/LanguageContext';
+import { Copy, Check, Play, Sparkles, SlidersHorizontal, Layers, Cpu, Tv, ArrowLeft, Box, Activity, ActivitySquare } from 'lucide-react';
 
 export function App() {
+  const { t } = useLanguage();
   const [mode, setMode] = useState<'assisted' | 'free'>('free');
   const [resolution, setResolution] = useState<Resolution>('1440p');
   const [copied, setCopied] = useState(false);
@@ -232,18 +236,25 @@ export function App() {
     setMode('free');
   };
 
+  const scrollToWorkshop = () => {
+    const el = document.getElementById('workshop-section');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <div className="relative min-h-screen bg-[#07090e] text-slate-100 flex flex-col selection:bg-cyan-500 selection:text-slate-950 lg:h-screen lg:overflow-hidden">
+    <div className="relative min-h-screen bg-[#07090e] text-slate-100 flex flex-col selection:bg-cyan-500 selection:text-slate-950">
       {/* Floating Red Incompatibility Toast Alerts in Upper Right Corner */}
       <IncompatibilityToastContainer
         notifications={incompatibilityToasts}
         onDismiss={handleDismissToast}
       />
 
-      {/* Hardware-Accelerated Dynamic Grey Metallic Fluid Smoke & Light Shafts */}
+      {/* Hardware-Accelerated Dynamic Grey Metallic Fluid Smoke & Light Shafts (Preserved 100%) */}
       <AtmosphereBackground />
 
-      {/* Header */}
+      {/* Header with Brand, Mode Selector and Global Language Toggle (ES / EN) */}
       <Header
         mode={mode}
         setMode={setMode}
@@ -256,9 +267,18 @@ export function App() {
           <AssistedMode onSelectBuildAndCustomize={handleSelectBuildFromAssisted} />
         </main>
       ) : (
-        <div className="relative z-10 flex-1 flex flex-col min-h-0 lg:overflow-hidden">
+        <div className="relative z-10 flex-1 flex flex-col">
+          {/* SECCIÓN 1: HERO DE IMPACTO CON IMAGEN IA & TEXTO INTERACTIVO */}
+          <HeroSection
+            onExploreClick={scrollToWorkshop}
+            onPrebuiltClick={() => setMode('assisted')}
+          />
+
+          {/* SECCIÓN 2: VITRINA DE COMPONENTES CON DESPLAZAMIENTO HORIZONTAL DINÁMICO */}
+          <ComponentShowcaseRibbon />
+
           {/* Preset quick test buttons & Resolution Bar for 3D Workshop */}
-          <div className="bg-slate-900/60 border-b border-cyan-500/20 px-3 sm:px-4 py-2 flex-shrink-0">
+          <div id="workshop-section" className="bg-slate-900/70 border-y border-cyan-500/20 px-3 sm:px-4 py-2.5 backdrop-blur-md">
             <div className="max-w-[1750px] mx-auto flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 text-xs">
               <div className="flex items-center gap-2 text-slate-400 overflow-hidden">
                 <button
@@ -266,11 +286,11 @@ export function App() {
                   className="hidden md:flex items-center gap-1.5 px-3 py-1 rounded-lg bg-cyan-950/80 border border-cyan-800 text-cyan-300 hover:bg-cyan-900/80 transition font-semibold flex-shrink-0"
                 >
                   <ArrowLeft className="w-3.5 h-3.5" />
-                  <span>Ir a Equipos Armados</span>
+                  <span>{t.backToPrebuilt}</span>
                 </button>
                 <div className="h-4 w-px bg-slate-800 mx-1 hidden md:block" />
                 <Play className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
-                <span className="font-semibold text-slate-300 hidden sm:inline flex-shrink-0">Pruebas:</span>
+                <span className="font-semibold text-slate-300 hidden sm:inline flex-shrink-0">{t.quickTestsLabel}</span>
 
                 {/* Horizontal touch scrollable carousel for test presets */}
                 <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar flex-nowrap py-0.5 flex-1 max-w-full">
@@ -278,37 +298,37 @@ export function App() {
                     onClick={() => loadScenario('budget')}
                     className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition whitespace-nowrap flex-shrink-0 text-xs"
                   >
-                    💵 Económico <span className="hidden md:inline">(R5 5600 + RX 6600)</span>
+                    {t.scenarioBudget} <span className="hidden md:inline">(R5 5600 + RX 6600)</span>
                   </button>
                   <button
                     onClick={() => loadScenario('balanced')}
                     className="px-2.5 py-1 rounded-lg bg-cyan-950/60 border border-cyan-800/50 hover:bg-cyan-900/60 text-cyan-300 transition whitespace-nowrap flex-shrink-0 text-xs"
                   >
-                    🔥 Gama Media <span className="hidden md:inline">(i5-13400F + RTX 5060)</span>
+                    {t.scenarioBalanced} <span className="hidden md:inline">(i5-13400F + RTX 5060)</span>
                   </button>
                   <button
                     onClick={() => loadScenario('extreme')}
                     className="px-2.5 py-1 rounded-lg bg-purple-950/60 border border-purple-800/50 hover:bg-purple-900/60 text-purple-300 transition whitespace-nowrap flex-shrink-0 text-xs"
                   >
-                    ⚡ Gama Alta <span className="hidden md:inline">(7800X3D + RTX 5080)</span>
+                    {t.scenarioExtreme} <span className="hidden md:inline">(7800X3D + RTX 5080)</span>
                   </button>
                   <button
                     onClick={() => loadScenario('rtx5090')}
                     className="px-2.5 py-1 rounded-lg bg-amber-950/60 border border-amber-800/50 hover:bg-amber-900/60 text-amber-300 transition font-bold whitespace-nowrap flex-shrink-0 text-xs"
                   >
-                    👑 Titán 4K <span className="hidden md:inline">(9800X3D + RTX 5090)</span>
+                    {t.scenarioTitan} <span className="hidden md:inline">(9800X3D + RTX 5090)</span>
                   </button>
                   <button
                     onClick={() => loadScenario('bottleneck_cpu')}
                     className="px-2.5 py-1 rounded-lg bg-rose-950/40 border border-rose-800/50 hover:bg-rose-900/40 text-rose-300 transition whitespace-nowrap flex-shrink-0 text-xs"
                   >
-                    ⚠️ Cuello Botella
+                    {t.scenarioBottleneck}
                   </button>
                 </div>
               </div>
 
               <div className="flex items-center justify-between sm:justify-end gap-2 text-xs flex-shrink-0 pt-1 sm:pt-0 border-t border-slate-800/60 sm:border-t-0">
-                <span className="text-slate-400 font-medium">Resolución:</span>
+                <span className="text-slate-400 font-medium">{t.resolutionLabel}</span>
                 <div className="flex bg-slate-950 p-0.5 rounded-lg border border-slate-800">
                   {(['1080p', '1440p', '4k'] as Resolution[]).map((res) => (
                     <button
@@ -332,9 +352,10 @@ export function App() {
           {isVisualLoading ? (
             <SkeletonCockpit />
           ) : (
-            <main className="max-w-[1750px] mx-auto px-3 sm:px-4 lg:px-6 py-3 flex-1 w-full min-h-0 lg:overflow-hidden flex flex-col">
+            <div className="max-w-[1750px] mx-auto px-3 sm:px-4 lg:px-6 py-6 w-full flex flex-col gap-10">
+              
               {/* Mobile Navigation Tabs for real smartphones (< lg) */}
-              <div className="lg:hidden bg-slate-900/95 border-b border-slate-800 p-2 mb-3 rounded-2xl flex items-center justify-between gap-1 shadow-md">
+              <div className="lg:hidden bg-slate-900/95 border border-slate-800 p-2 rounded-2xl flex items-center justify-between gap-1 shadow-md">
                 <button
                   onClick={() => setMobileTab('3d')}
                   className={`flex-1 py-1.5 px-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition ${
@@ -344,7 +365,7 @@ export function App() {
                   }`}
                 >
                   <Box className="w-3.5 h-3.5" />
-                  <span>Visor 3D</span>
+                  <span>{t.tab3D}</span>
                 </button>
 
                 <button
@@ -356,7 +377,7 @@ export function App() {
                   }`}
                 >
                   <Cpu className="w-3.5 h-3.5" />
-                  <span>Piezas</span>
+                  <span>{t.tabParts}</span>
                   <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-cyan-950 text-cyan-300 font-mono">
                     {Object.values(components).filter(Boolean).length}/8
                   </span>
@@ -371,7 +392,7 @@ export function App() {
                   }`}
                 >
                   <Activity className="w-3.5 h-3.5" />
-                  <span>Diagnóstico</span>
+                  <span>{t.tabDiagnostics}</span>
                   {compatibilityCount.failed > 0 && (
                     <span className="w-2 h-2 rounded-full bg-rose-500 ring-2 ring-rose-400/50 animate-ping absolute top-1 right-1" />
                   )}
@@ -387,84 +408,109 @@ export function App() {
                   title="Ver todo en scroll corrido"
                 >
                   <Layers className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">Todo</span>
+                  <span className="hidden sm:inline">{t.tabAll}</span>
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch flex-1 min-h-0">
-              
-              {/* COLUMN 1: LEFT COMPONENT DROPDOWNS (Independently scrollable - Extended width for full visibility) */}
-              <div className={`lg:col-span-5 xl:col-span-5 2xl:col-span-4 lg:h-full lg:overflow-y-auto pr-1.5 space-y-3 ${
-                mobileTab === 'components' || mobileTab === 'all' ? 'block' : 'max-lg:hidden'
-              }`}>
-                <ComponentDropdowns
-                  components={components}
-                  onUpdateComponent={handleUpdateComponent}
-                  onAutoRecommendRemaining={handleAutoRecommendRemaining}
-                  onResetBuild={resetBuild}
-                />
-              </div>
-
-              {/* COLUMN 2: CENTER HARDWARE-ACCELERATED 3D VIEWER (Static & Always in View) */}
-              <div className={`lg:col-span-4 xl:col-span-4 2xl:col-span-5 lg:h-full flex flex-col justify-start lg:justify-between gap-3 overflow-hidden ${
-                mobileTab === '3d' || mobileTab === 'all' ? 'flex' : 'max-lg:hidden'
-              }`}>
-                <div className="h-[380px] sm:h-[440px] lg:flex-1 lg:min-h-[380px] w-full rounded-2xl overflow-hidden shadow-2xl border border-cyan-500/30 flex-shrink-0 lg:flex-shrink">
-                  <PCViewer3D components={components} />
+              {/* SECCIÓN 3: TALLER 3D & CONFIGURACIÓN MINIMALISTA + COMPATIBILIDAD */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                
+                {/* COLUMN 1: LEFT COMPONENT DROPDOWNS (Estética Metálica Minimalista) */}
+                <div className={`lg:col-span-5 xl:col-span-5 space-y-3 ${
+                  mobileTab === 'components' || mobileTab === 'all' ? 'block' : 'max-lg:hidden'
+                }`}>
+                  <ComponentDropdowns
+                    components={components}
+                    onUpdateComponent={handleUpdateComponent}
+                    onAutoRecommendRemaining={handleAutoRecommendRemaining}
+                    onResetBuild={resetBuild}
+                  />
                 </div>
 
-                {/* Price & Summary quick strip under 3D */}
-                <div className="bg-slate-900/90 border border-slate-800/80 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-3 flex-shrink-0 shadow-lg">
-                  <div>
-                    <span className="text-[11px] text-slate-400 block font-medium">Presupuesto Estimado</span>
-                    <span className="text-xl font-black text-white">${totalCost} <span className="text-xs text-slate-400 font-normal">USD</span></span>
+                {/* COLUMN 2: CENTER HARDWARE 3D VIEWER + VALIDACIÓN DE COMPATIBILIDAD INTEGRADA */}
+                <div className={`lg:col-span-7 xl:col-span-7 flex flex-col gap-4 ${
+                  mobileTab === '3d' || mobileTab === 'all' ? 'flex' : 'max-lg:hidden'
+                }`}>
+                  {/* Visor 3D Neón Studio */}
+                  <div className="h-[420px] sm:h-[480px] w-full rounded-2xl overflow-hidden shadow-2xl border border-cyan-500/30">
+                    <PCViewer3D components={components} />
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={resetBuild}
-                      className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition"
-                    >
-                      Limpiar Todo
-                    </button>
-                    <button
-                      onClick={copyBuildSummary}
-                      className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-bold transition shadow-lg shadow-cyan-500/20"
-                    >
-                      {copied ? <Check className="w-3.5 h-3.5 text-slate-950" /> : <Copy className="w-3.5 h-3.5" />}
-                      <span>{copied ? '¡Copiado!' : 'Copiar Configuración'}</span>
-                    </button>
+                  {/* Price & Summary quick strip under 3D */}
+                  <div className="bg-slate-900/90 border border-slate-800/80 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-3 shadow-lg">
+                    <div>
+                      <span className="text-[11px] text-slate-400 block font-medium">{t.estimatedBudget}</span>
+                      <span className="text-xl font-black text-white">${totalCost} <span className="text-xs text-slate-400 font-normal">USD</span></span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={resetBuild}
+                        className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition"
+                      >
+                        {t.btnClear}
+                      </button>
+                      <button
+                        onClick={copyBuildSummary}
+                        className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-bold transition shadow-lg shadow-cyan-500/20"
+                      >
+                        {copied ? <Check className="w-3.5 h-3.5 text-slate-950" /> : <Copy className="w-3.5 h-3.5" />}
+                        <span>{copied ? t.btnCopied : t.btnCopyConfig}</span>
+                      </button>
+                    </div>
                   </div>
+
+                  {/* Validación de Compatibilidad (Ubicada en la sección del Modelo 3D) */}
+                  <CompatibilityList checks={compatibilityChecks} />
                 </div>
+
               </div>
 
-              {/* COLUMN 3: RIGHT DIAGNOSTICS & ADVISOR (Independently scrollable) */}
-              <div className={`lg:col-span-3 xl:col-span-3 lg:h-full lg:overflow-y-auto pr-1.5 space-y-3.5 ${
+              {/* SECCIÓN 4: CENTRO DE DIAGNÓSTICO Y CUELLO DE BOTELLA */}
+              <section id="diagnostics-section" className={`pt-6 border-t border-slate-800/80 space-y-6 ${
                 mobileTab === 'diagnostics' || mobileTab === 'all' ? 'block' : 'max-lg:hidden'
               }`}>
-                {/* Case Advisor (Mini / Mid / Full Tower) */}
-                <CaseAdvisor 
-                  components={components} 
-                  onSelectRecommendedCase={handleSelectCaseType} 
-                />
+                {/* Header de la Sección de Diagnóstico */}
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                  <div>
+                    <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                      <Activity className="w-5 h-5 text-cyan-400" />
+                      <span>{t.diagnosticsSectionTitle}</span>
+                    </h3>
+                    <p className="text-xs text-slate-400">
+                      {t.diagnosticsSectionSubtitle}
+                    </p>
+                  </div>
+                  <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-slate-900 border border-cyan-500/30 text-cyan-300">
+                    Resolución Activa: {resolution.toUpperCase()}
+                  </span>
+                </div>
 
-                {/* Bottleneck Card */}
-                <BottleneckCard
-                  evaluation={bottleneckEvaluation}
-                  resolution={resolution}
-                  setResolution={setResolution}
-                  hasCpuAndGpu={Boolean(components.cpu && components.gpu)}
-                />
+                {/* Grid de 3 Cards: Cuello de Botella, Fuente de Poder y Asesor de Gabinete */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                  <div className="space-y-4">
+                    <BottleneckCard
+                      evaluation={bottleneckEvaluation}
+                      resolution={resolution}
+                      setResolution={setResolution}
+                      hasCpuAndGpu={Boolean(components.cpu && components.gpu)}
+                    />
+                  </div>
 
-                {/* Power Metrics Card */}
-                <PowerCard components={components} />
+                  <div className="space-y-4">
+                    <PowerCard components={components} />
+                  </div>
 
-                {/* Real-time Compatibility Checks */}
-                <CompatibilityList checks={compatibilityChecks} />
-              </div>
+                  <div className="space-y-4">
+                    <CaseAdvisor 
+                      components={components} 
+                      onSelectRecommendedCase={handleSelectCaseType} 
+                    />
+                  </div>
+                </div>
+              </section>
 
             </div>
-          </main>
           )}
         </div>
       )}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLanguage } from '../context/LanguageContext';
 import {
   SelectedComponents,
   CPU,
@@ -51,6 +52,8 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
   onAutoRecommendRemaining,
   onResetBuild
 }) => {
+  const { t } = useLanguage();
+
   // Helper to determine tower badge color
   const getTowerBadge = (caseType: CaseType) => {
     switch (caseType) {
@@ -106,11 +109,12 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
       <div className="flex flex-col gap-1 px-1">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <h2 className="text-sm font-bold text-white tracking-tight">
-              Configurar Componentes
+            <h2 className="text-sm font-bold text-slate-100 tracking-tight flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+              {t.configHeader}
             </h2>
-            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-800/60 whitespace-nowrap">
-              {selectedCount}/8 Piezas
+            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-slate-800 text-cyan-300 border border-slate-700/80 whitespace-nowrap">
+              {selectedCount}/8 {t.partsCount}
             </span>
           </div>
 
@@ -119,37 +123,34 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
               <button
                 type="button"
                 onClick={onResetBuild}
-                className="flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/70 text-[11px] font-semibold transition"
-                title="Reiniciar todos los componentes"
+                className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 text-[11px] font-semibold transition"
+                title="Reiniciar selección"
               >
                 <RotateCcw className="w-3 h-3 text-slate-400" />
-                <span>Reiniciar</span>
+                <span>{t.btnReset}</span>
               </button>
             )}
 
             {onAutoRecommendRemaining && components.cpu && components.gpu && (
               <button
                 onClick={onAutoRecommendRemaining}
-                className="flex items-center gap-1 px-2.5 py-1 bg-cyan-600 hover:bg-cyan-500 text-white text-[11px] font-bold rounded-lg shadow-md shadow-cyan-600/25 transition-all hover:scale-105 active:scale-95"
-                title="Auto-seleccionar el resto de piezas equilibradas según tu CPU y GPU"
+                className="flex items-center gap-1 px-2.5 py-1 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-[11px] font-bold rounded-lg shadow-md shadow-cyan-600/30 transition-all hover:scale-105 active:scale-95"
+                title="Auto-seleccionar el resto de piezas equilibradas"
               >
                 <Sparkles className="w-3 h-3 flex-shrink-0" />
-                <span>Auto-completar</span>
+                <span>{t.btnAutoComplete}</span>
               </button>
             )}
           </div>
         </div>
-        <p className="text-[11px] text-slate-400 leading-tight">
-          Cambia cualquier pieza; el modelo 3D y el diagnóstico se actualizan al instante.
-        </p>
       </div>
 
       {/* 1. CPU (PROCESADOR) */}
-      <div className="bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 rounded-xl p-3 transition-colors shadow-sm">
+      <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700/60 hover:border-cyan-500/50 rounded-xl p-3 transition-colors shadow-md shadow-black/30">
         <div className="flex items-center justify-between mb-1.5">
           <label className="flex items-center gap-2 text-xs font-semibold text-cyan-400">
             <Cpu className="w-4 h-4 text-cyan-400" />
-            <span>PROCESADOR (CPU)</span>
+            <span>{t.catCpu}</span>
           </label>
           {components.cpu && (
             <div className="flex items-center gap-1.5">
@@ -199,11 +200,11 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
       </div>
 
       {/* 2. GPU (TARJETA GRÁFICA) */}
-      <div className="bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 rounded-xl p-3 transition-colors shadow-sm">
+      <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700/60 hover:border-cyan-500/50 rounded-xl p-3 transition-colors shadow-md shadow-black/30">
         <div className="flex items-center justify-between mb-1.5">
           <label className="flex items-center gap-2 text-xs font-semibold text-cyan-400">
             <Tv className="w-4 h-4 text-cyan-400" />
-            <span>TARJETA GRÁFICA (GPU)</span>
+            <span>{t.catGpu}</span>
           </label>
           {components.gpu && (
             <div className="flex items-center gap-1.5">
@@ -253,11 +254,11 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
       </div>
 
       {/* 3. MOTHERBOARD (PLACA MADRE) */}
-      <div className="bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 rounded-xl p-3 transition-colors shadow-sm">
+      <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700/60 hover:border-cyan-500/50 rounded-xl p-3 transition-colors shadow-md shadow-black/30">
         <div className="flex items-center justify-between mb-1.5">
           <label className="flex items-center gap-2 text-xs font-semibold text-cyan-400">
             <Layers className="w-4 h-4 text-cyan-400" />
-            <span>PLACA MADRE (MOTHERBOARD)</span>
+            <span>{t.catMobo}</span>
           </label>
           {components.motherboard && (
             <div className="flex items-center gap-1.5">
@@ -307,11 +308,11 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
       </div>
 
       {/* 4. COOLER (DISIPADOR) */}
-      <div className="bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 rounded-xl p-3 transition-colors shadow-sm">
+      <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700/60 hover:border-cyan-500/50 rounded-xl p-3 transition-colors shadow-md shadow-black/30">
         <div className="flex items-center justify-between mb-1.5">
           <label className="flex items-center gap-2 text-xs font-semibold text-cyan-400">
             <Fan className="w-4 h-4 text-cyan-400" />
-            <span>DISIPADOR (COOLER)</span>
+            <span>{t.catCooler}</span>
           </label>
           {components.cooler && (
             <div className="flex items-center gap-1.5">
@@ -361,11 +362,11 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
       </div>
 
       {/* 5. RAM (MEMORIA RAM) */}
-      <div className="bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 rounded-xl p-3 transition-colors shadow-sm">
+      <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700/60 hover:border-cyan-500/50 rounded-xl p-3 transition-colors shadow-md shadow-black/30">
         <div className="flex items-center justify-between mb-1.5">
           <label className="flex items-center gap-2 text-xs font-semibold text-cyan-400">
             <CircuitBoard className="w-4 h-4 text-cyan-400" />
-            <span>MEMORIA RAM</span>
+            <span>{t.catRam}</span>
           </label>
           {components.ram && (
             <div className="flex items-center gap-1.5">
@@ -415,11 +416,11 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
       </div>
 
       {/* 6. STORAGE (ALMACENAMIENTO - MULTI-UNIDADES CON BOTÓN +) */}
-      <div className="bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 rounded-xl p-3 transition-colors shadow-sm space-y-2.5">
+      <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700/60 hover:border-cyan-500/50 rounded-xl p-3 transition-colors shadow-md shadow-black/30 space-y-2.5">
         <div className="flex items-center justify-between">
           <label className="flex items-center gap-2 text-xs font-semibold text-cyan-400">
             <HardDrive className="w-4 h-4 text-cyan-400" />
-            <span>ALMACENAMIENTO ({currentDrives.length} {currentDrives.length === 1 ? 'Unidad' : 'Unidades'})</span>
+            <span>{t.catStorage} ({currentDrives.length} {currentDrives.length === 1 ? 'Unidad' : 'Unidades'})</span>
           </label>
           <button
             type="button"
@@ -525,11 +526,11 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
       </div>
 
       {/* 7. PSU (FUENTE DE PODER) */}
-      <div className="bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 rounded-xl p-3 transition-colors shadow-sm">
+      <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700/60 hover:border-cyan-500/50 rounded-xl p-3 transition-colors shadow-md shadow-black/30">
         <div className="flex items-center justify-between mb-1.5">
           <label className="flex items-center gap-2 text-xs font-semibold text-cyan-400">
             <Zap className="w-4 h-4 text-cyan-400" />
-            <span>FUENTE DE PODER (PSU)</span>
+            <span>{t.catPsu}</span>
           </label>
           {components.psu && (
             <div className="flex items-center gap-1.5">
@@ -579,11 +580,11 @@ export const ComponentDropdowns: React.FC<ComponentDropdownsProps> = ({
       </div>
 
       {/* 8. CASE (GABINETE: MINI / MID / FULL TOWER) */}
-      <div className="bg-slate-900/90 border border-cyan-500/40 rounded-xl p-3 transition-colors shadow-sm relative overflow-hidden">
+      <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700/60 hover:border-cyan-500/50 rounded-xl p-3 transition-colors shadow-md shadow-black/30 relative overflow-hidden">
         <div className="flex items-center justify-between mb-1.5">
           <label className="flex items-center gap-2 text-xs font-semibold text-cyan-400">
             <Box className="w-4 h-4 text-cyan-400" />
-            <span>GABINETE (CHASIS)</span>
+            <span>{t.catCase}</span>
           </label>
           {components.caseItem && (
             <div className="flex items-center gap-1.5">
