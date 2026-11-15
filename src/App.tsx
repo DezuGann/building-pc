@@ -17,6 +17,7 @@ import { BottleneckCard } from './components/BottleneckCard';
 import { PowerCard } from './components/PowerCard';
 import { CompatibilityList } from './components/CompatibilityList';
 import { PCViewer3D } from './components/PCViewer3D';
+import { BuildPartsPanel } from './components/BuildPartsPanel';
 import { ComponentDropdowns } from './components/ComponentDropdowns';
 import { CaseAdvisor } from './components/CaseAdvisor';
 import { AssistedMode } from './components/AssistedMode';
@@ -25,7 +26,7 @@ import { SkeletonCockpit } from './components/SkeletonCockpit';
 import { IncompatibilityToastContainer, IncompatibilityNotification } from './components/IncompatibilityToast';
 import { HeroSection } from './components/HeroSection';
 import { useLanguage } from './context/LanguageContext';
-import { Copy, Check, Play, Sparkles, SlidersHorizontal, Layers, Cpu, Tv, ArrowLeft, Box, Activity, ActivitySquare } from 'lucide-react';
+import { Copy, Check, Play, Sparkles, SlidersHorizontal, Layers, Cpu, Tv, ArrowLeft, Box, Activity, ActivitySquare, CheckCircle2, AlertTriangle, Zap } from 'lucide-react';
 
 export function App() {
   const { t } = useLanguage();
@@ -207,6 +208,19 @@ export function App() {
       (components.caseItem?.priceUsd || 0);
     return baseCost + storageCost;
   }, [components, drives]);
+
+  const estimatedWattage = useMemo(() => {
+    const cpuW = components.cpu?.maxPowerWatts || components.cpu?.tdpWatts || 0;
+    const gpuW = components.gpu?.tdpWatts || 0;
+    const baseW = (components.motherboard ? 45 : 0) + (components.cooler ? 15 : 0) + (components.ram ? 15 : 0) + 15;
+    return cpuW + gpuW + baseW;
+  }, [components]);
+
+  const estimated3DMark = useMemo(() => {
+    const gpuScore = components.gpu ? components.gpu.gpuScore1440p * 340 : 1200;
+    const cpuScore = components.cpu ? components.cpu.cpuScoreSingle * 95 : 800;
+    return Math.round(gpuScore + cpuScore);
+  }, [components]);
 
   const copyBuildSummary = () => {
     const lines = [
@@ -408,56 +422,93 @@ export function App() {
                 </button>
               </div>
 
-              {/* SECCIÓN 3: TALLER 3D & CONFIGURACIÓN MINIMALISTA + COMPATIBILIDAD */}
+              {/* SECCIÓN 3: TALLER 3D & CONFIGURACIÓN MODULAR CON SELECTOR EN VENTANA (ESTILO BUILDCORES) */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                 
-                {/* COLUMN 1: LEFT COMPONENT DROPDOWNS (Estética Metálica Minimalista) */}
-                <div className={`lg:col-span-5 xl:col-span-5 space-y-3 ${
-                  mobileTab === 'components' || mobileTab === 'all' ? 'block' : 'max-lg:hidden'
-                }`}>
-                  <ComponentDropdowns
-                    components={components}
-                    onUpdateComponent={handleUpdateComponent}
-                    onAutoRecommendRemaining={handleAutoRecommendRemaining}
-                    onResetBuild={resetBuild}
-                  />
-                </div>
-
-                {/* COLUMN 2: CENTER HARDWARE 3D VIEWER + VALIDACIÓN DE COMPATIBILIDAD INTEGRADA */}
-                <div className={`lg:col-span-7 xl:col-span-7 flex flex-col gap-4 ${
+                {/* COLUMN 1: CENTER 3D HARDWARE VIEWER & TELEMETRÍA (Pantalla Principal) */}
+                <div className={`lg:col-span-7 xl:col-span-7 2xl:col-span-8 flex flex-col gap-4 ${
                   mobileTab === '3d' || mobileTab === 'all' ? 'flex' : 'max-lg:hidden'
                 }`}>
-                  {/* Visor 3D Neón Studio - Autoajustable para 2K y Móvil */}
-                  <div className="h-fluid-viewer w-full rounded-2xl overflow-hidden shadow-2xl border border-slate-700/80 bg-slate-950/80">
-                    <PCViewer3D components={components} />
-                  </div>
+                  {/* Barra de Telemetría Rápida del Ensamble */}
+                  <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-3 shadow-lg backdrop-blur-md">
+                    <div className="flex items-center gap-2.5 flex-wrap">
+                      {/* Presupuesto Total */}
+                      <div className="flex items-center gap-2 bg-slate-950/80 border border-emerald-500/40 px-3 py-1.5 rounded-xl shadow-inner">
+                        <span className="text-[10px] text-slate-400 uppercase tracking-wider font-bold">Total:</span>
+                        <span className="text-sm 2xl:text-base font-black font-mono text-emerald-400">
+                          ${totalCost} <span className="text-[10px] text-slate-400 font-normal">USD</span>
+                        </span>
+                      </div>
 
-                  {/* Price & Summary quick strip under 3D */}
-                  <div className="bg-slate-900/75 border border-slate-800 rounded-xl p-3 flex flex-wrap items-center justify-between gap-3 shadow-md">
-                    <div>
-                      <span className="text-[11px] text-slate-400 block font-medium">{t.estimatedBudget}</span>
-                      <span className="text-xl font-black text-white">${totalCost} <span className="text-xs text-slate-400 font-normal">USD</span></span>
+                      {/* Compatibilidad Status Pill */}
+                      <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold ${
+                        compatibilityCount.failed === 0
+                          ? 'bg-cyan-950/60 border-cyan-500/60 text-cyan-300'
+                          : 'bg-rose-950/60 border-rose-500/60 text-rose-300'
+                      }`}>
+                        {compatibilityCount.failed === 0 ? (
+                          <>
+                            <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" />
+                            <span>100% Compatible</span>
+                          </>
+                        ) : (
+                          <>
+                            <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />
+                            <span>{compatibilityCount.failed} Alertas</span>
+                          </>
+                        )}
+                      </div>
+
+                      {/* Consumo Eléctrico Estimado */}
+                      <div className="flex items-center gap-1.5 bg-slate-950/80 border border-amber-500/40 px-3 py-1.5 rounded-xl text-xs font-bold text-amber-300">
+                        <Zap className="w-3.5 h-3.5 text-amber-400" />
+                        <span>{estimatedWattage}W Pico</span>
+                      </div>
+
+                      {/* Puntuación 3DMARK Estimada */}
+                      <div className="hidden sm:flex items-center gap-1.5 bg-slate-950/80 border border-purple-500/40 px-3 py-1.5 rounded-xl text-xs font-bold text-purple-300">
+                        <Activity className="w-3.5 h-3.5 text-purple-400" />
+                        <span>3DMARK: <span className="font-mono text-white">{estimated3DMark.toLocaleString()}</span></span>
+                      </div>
                     </div>
 
+                    {/* Acciones Rápidas */}
                     <div className="flex items-center gap-2">
                       <button
                         onClick={resetBuild}
-                        className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition border border-slate-700"
+                        className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-semibold transition border border-slate-700"
                       >
                         {t.btnClear}
                       </button>
                       <button
                         onClick={copyBuildSummary}
-                        className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-slate-200 via-slate-100 to-slate-300 hover:from-white hover:to-slate-200 text-slate-950 text-xs font-bold transition shadow-md border border-slate-300/80"
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-cyan-500 to-sky-400 hover:from-cyan-400 hover:to-sky-300 text-slate-950 text-xs font-bold transition shadow-sm"
                       >
-                        {copied ? <Check className="w-3.5 h-3.5 text-slate-950" /> : <Copy className="w-3.5 h-3.5" />}
+                        {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                         <span>{copied ? t.btnCopied : t.btnCopyConfig}</span>
                       </button>
                     </div>
                   </div>
 
-                  {/* Validación de Compatibilidad (Ubicada en la sección del Modelo 3D) */}
+                  {/* Visor 3D Panorámico Acuario Studio - Autoajustable para 2K y Móvil */}
+                  <div className="h-fluid-viewer w-full rounded-2xl overflow-hidden shadow-2xl border border-slate-700/80 bg-slate-950/80">
+                    <PCViewer3D components={components} />
+                  </div>
+
+                  {/* Validación de Compatibilidad (Ubicada debajo del visor 3D) */}
                   <CompatibilityList checks={compatibilityChecks} />
+                </div>
+
+                {/* COLUMN 2: RIGHT PARTS PANEL & IN-PLACE SELECTION WINDOW (BuildCores Style) */}
+                <div className={`lg:col-span-5 xl:col-span-5 2xl:col-span-4 space-y-3 ${
+                  mobileTab === 'components' || mobileTab === 'all' ? 'block' : 'max-lg:hidden'
+                }`}>
+                  <BuildPartsPanel
+                    components={components}
+                    onUpdateComponent={handleUpdateComponent}
+                    onAutoRecommendRemaining={handleAutoRecommendRemaining}
+                    onResetBuild={resetBuild}
+                  />
                 </div>
 
               </div>

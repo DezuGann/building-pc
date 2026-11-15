@@ -111,9 +111,9 @@ export const PCViewer3D: React.FC<PCViewer3DProps> = ({ components, onSelectComp
     scene.fog = new THREE.Fog(0x0e1726, 12, 28);
     sceneRef.current = scene;
 
-    // 2. CAMERA (Zoomed-out initial perspective for complete showcase framing)
+    // 2. CAMERA (Framing closer for detailed showcase, perfectly centered)
     const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
-    camera.position.set(4.3, 2.3, -1.9);
+    camera.position.set(3.4, 1.85, -1.5);
     cameraRef.current = camera;
 
     // 3. HARDWARE-ACCELERATED RENDERER (Optimized for maximum FPS)
@@ -816,13 +816,11 @@ export const PCViewer3D: React.FC<PCViewer3DProps> = ({ components, onSelectComp
       addCaseMeshWithEdges(frontRight);
     }
 
-    // Tempered Glass Panel (Ultra clear or swung open)
+    // Tempered Glass Panels (Ultra clear panoramic aquarium wrap - Estilo Hyte Y60 / Y70)
     const isMoboView = viewPreset === 'mobo';
     const effectiveGlassOpen = glassOpen || isMoboView; // Automatically open during socket close-up
 
     const glassThickness = 0.015;
-    const glassGeo = new THREE.BoxGeometry(glassThickness, caseHeight - 0.06, caseDepth - 0.06);
-    // Optimized high-performance glass material (zero framebuffer transmission cost for locked 60 FPS)
     const glassMat = new THREE.MeshStandardMaterial({
       color: 0xcfd8dc,
       metalness: 0.1,
@@ -831,16 +829,34 @@ export const PCViewer3D: React.FC<PCViewer3DProps> = ({ components, onSelectComp
       depthWrite: false, // Ensures internal panels like PSU shroud never clip when viewed from below
       opacity: effectiveGlassOpen ? 0.03 : 0.16
     });
+
+    // 1. Cristal lateral principal
+    const glassGeo = new THREE.BoxGeometry(glassThickness, caseHeight - 0.06, caseDepth * 0.88);
     const glassMesh = new THREE.Mesh(glassGeo, glassMat);
-    glassMesh.renderOrder = 20; // Renders after all interior parts to prevent depth sort glitches
+    glassMesh.renderOrder = 20;
     if (effectiveGlassOpen) {
       glassMesh.position.set(halfW + 0.55, 0, -halfD * 0.4);
       glassMesh.rotation.y = Math.PI / 3.5;
     } else {
-      glassMesh.position.set(halfW, 0, 0);
+      glassMesh.position.set(halfW, 0, halfD * 0.06);
       glassMesh.rotation.y = 0;
     }
     caseGroup.add(glassMesh);
+
+    // 2. Cristal esquinero a 45° panorámico (Acuario estilo Hyte / BuildCores)
+    const cornerGlassGeo = new THREE.BoxGeometry(0.24, caseHeight - 0.06, glassThickness);
+    const cornerGlass = new THREE.Mesh(cornerGlassGeo, glassMat);
+    cornerGlass.position.set(halfW - 0.085, 0, -halfD + 0.085);
+    cornerGlass.rotation.y = Math.PI / 4;
+    cornerGlass.renderOrder = 20;
+    caseGroup.add(cornerGlass);
+
+    // 3. Cristal frontal panorámico
+    const frontGlassGeo = new THREE.BoxGeometry(caseWidth * 0.72, caseHeight - 0.06, glassThickness);
+    const frontGlass = new THREE.Mesh(frontGlassGeo, glassMat);
+    frontGlass.position.set(-halfW * 0.14, 0, -halfD);
+    frontGlass.renderOrder = 20;
+    caseGroup.add(frontGlass);
 
     group.add(caseGroup);
 
@@ -1461,61 +1477,77 @@ export const PCViewer3D: React.FC<PCViewer3DProps> = ({ components, onSelectComp
     }
 
     // ==========================================
-    // G. TARJETA GRÁFICA (GPU) DETALLADA
+    // G. TARJETA GRÁFICA (GPU) DETALLADA - MONTAJE VERTICAL SHOWCASE (ESTILO BUILDCORES)
     // ==========================================
-    const gpuY = moboY - 0.14; // Aligned directly with primary PCIe x16 slot
-    const gpuLength = components.gpu ? Math.max(0.68, Math.min(1.18, components.gpu.lengthMm / 310)) : 0.82;
-    const gpuWidth = components.gpu && components.gpu.slotWidth >= 2.5 ? 0.36 : 0.28;
-    const gpuHeight = 0.19;
+    const gpuLength = components.gpu ? Math.max(0.72, Math.min(1.15, components.gpu.lengthMm / 295)) : 0.84;
+    const gpuHeight = 0.38; // Perfil vertical que exhibe los 3 ventiladores hacia el cristal
+    const gpuThickness = components.gpu && components.gpu.slotWidth >= 2.5 ? 0.15 : 0.12;
+    const gpuX = halfW - 0.28; // Montaje vertical paralelo al cristal templado
+    const gpuY = shroudTopWorldY + gpuHeight / 2 + 0.055;
+    const gpuZ = halfD - 0.14 - gpuLength / 2;
 
-    const gpuGeo = new THREE.BoxGeometry(gpuWidth, gpuHeight, gpuLength);
+    const gpuGeo = new THREE.BoxGeometry(gpuThickness, gpuHeight, gpuLength);
     const gpuMat = components.gpu
-      ? new THREE.MeshStandardMaterial({ color: 0x182234, metalness: 0.9, roughness: 0.2 })
+      ? new THREE.MeshStandardMaterial({ color: 0x111827, metalness: 0.9, roughness: 0.2 })
       : new THREE.MeshStandardMaterial({ color: 0x334155, wireframe: true });
     const gpuMesh = new THREE.Mesh(gpuGeo, gpuMat);
-    // Align rear bracket flush against the chassis back plate at +halfD - 0.08 (LEFT of view)
-    gpuMesh.position.set(moboX + gpuWidth / 2 + 0.035, gpuY, halfD - 0.08 - gpuLength / 2);
+    gpuMesh.position.set(gpuX, gpuY, gpuZ);
     gpuMesh.castShadow = true;
 
     if (components.gpu) {
-      // GPU Backplate (Silver / Gunmetal with geometric cutouts)
+      // 1. Soporte vertical rígido (Riser bracket) anclado a la cubierta
+      const riserBracket = new THREE.Mesh(
+        new THREE.BoxGeometry(gpuThickness + 0.04, 0.05, gpuLength * 0.75),
+        chassisMetalMat
+      );
+      riserBracket.position.set(gpuX, shroudTopWorldY + 0.025, gpuZ);
+      group.add(riserBracket);
+
+      // 2. Backplate metálico posterior orientado hacia la placa madre
       const backplate = new THREE.Mesh(
-        new THREE.BoxGeometry(gpuWidth, 0.016, gpuLength),
+        new THREE.BoxGeometry(0.012, gpuHeight - 0.02, gpuLength - 0.02),
         silverMetalMat
       );
-      backplate.position.set(gpuMesh.position.x, gpuY + gpuHeight / 2 + 0.009, gpuMesh.position.z);
+      backplate.position.set(gpuX - gpuThickness / 2 - 0.005, gpuY, gpuZ);
       group.add(backplate);
 
-      // Glowing Side Brand Badge (e.g. GEFORCE RTX / RADEON)
-      const sideLogo = new THREE.Mesh(
-        new THREE.BoxGeometry(0.01, 0.045, 0.32),
+      // 3. Logo iluminado en el borde superior (ASUS ROG / GEFORCE RTX)
+      const topBadge = new THREE.Mesh(
+        new THREE.BoxGeometry(gpuThickness * 0.9, 0.02, 0.35),
         neonCyanMat
       );
-      sideLogo.position.set(gpuMesh.position.x + gpuWidth / 2 + 0.006, gpuY + 0.03, gpuMesh.position.z);
-      group.add(sideLogo);
+      topBadge.position.set(gpuX, gpuY + gpuHeight / 2 + 0.005, gpuZ);
+      group.add(topBadge);
 
-      // Embedded GPU fans with realistic aerodynamic turbine rotors
-      const fanCount = components.gpu.lengthMm > 265 ? 3 : 2;
-      const fanSpacing = (gpuLength * 0.72) / fanCount;
+      // 4. Triple ventiladores aerodinámicos con aros LED cian orientados hacia el visor (+X)
+      const fanCount = 3;
+      const fanRadius = 0.14;
+      const fanSpacing = (gpuLength * 0.75) / fanCount;
+
       for (let i = 0; i < fanCount; i++) {
-        const fanZ = gpuMesh.position.z + gpuLength * 0.3 - i * fanSpacing - 0.08;
-        const gpuFan = createRealisticFan(gpuWidth * 0.65, 0.012, 9, 0x0f172a, 0.4);
-        gpuFan.position.set(gpuMesh.position.x + gpuWidth / 2 + 0.005, gpuY, fanZ);
+        const fanZ = gpuZ + gpuLength * 0.32 - i * fanSpacing;
+
+        // Aro halo LED cian brillante alrededor de cada ventilador
+        const haloGeo = new THREE.RingGeometry(fanRadius * 0.88, fanRadius * 1.02, 28);
+        const haloMesh = new THREE.Mesh(haloGeo, neonCyanMat);
+        haloMesh.position.set(gpuX + gpuThickness / 2 + 0.008, gpuY, fanZ);
+        haloMesh.rotation.y = Math.PI / 2;
+        group.add(haloMesh);
+
+        // Rotor con aspas de turbina giratorias
+        const gpuFan = createRealisticFan(fanRadius * 1.7, 0.014, 9, 0x090d16, 0.4);
+        gpuFan.position.set(gpuX + gpuThickness / 2 + 0.01, gpuY, fanZ);
         gpuFan.rotation.y = Math.PI / 2;
         animatedFansRef.current.push({ obj: gpuFan, axis: 'x' });
         group.add(gpuFan);
       }
 
-      // PCIe Power Cable Bundle with Comb
+      // 5. Cable de poder PCIe con peine organizador hacia el sótano
       const pcieCable = new THREE.Mesh(
-        new THREE.BoxGeometry(0.06, 0.05, 0.06),
+        new THREE.BoxGeometry(0.05, 0.08, 0.06),
         goldContactsMat
       );
-      pcieCable.position.set(
-        gpuMesh.position.x + gpuWidth / 2 - 0.02,
-        gpuY + 0.07,
-        gpuMesh.position.z - gpuLength / 2 + 0.08
-      );
+      pcieCable.position.set(gpuX - 0.02, gpuY - gpuHeight / 2 - 0.02, gpuZ - gpuLength / 2 + 0.08);
       group.add(pcieCable);
     }
 
@@ -1719,21 +1751,21 @@ export const PCViewer3D: React.FC<PCViewer3DProps> = ({ components, onSelectComp
     const mobo = moboAnchorRef.current;
 
     if (preset === 'iso') {
-      camera.position.set(4.3, 2.3, -1.9);
-      controls.target.set(0, 0.9, 0);
+      camera.position.set(3.4, 1.85, -1.5);
+      controls.target.set(0, 0.95, 0);
       setGlassOpen(false);
     } else if (preset === 'side') {
-      camera.position.set(3.6, 1.0, 0);
-      controls.target.set(0, 1.0, 0);
+      camera.position.set(2.8, 0.95, 0);
+      controls.target.set(0, 0.95, 0);
       setGlassOpen(true);
     } else if (preset === 'mobo') {
       // Direct close-up centered on Motherboard, RAM slots, and M.2 NVMe!
-      camera.position.set(mobo.x + 1.35, mobo.y + 0.05, mobo.z);
+      camera.position.set(mobo.x + 1.2, mobo.y + 0.05, mobo.z);
       controls.target.set(mobo.x, mobo.y + 0.05, mobo.z);
       setGlassOpen(true); // Open glass automatically to view motherboard clearly
     } else if (preset === 'front') {
-      camera.position.set(0, 1.1, -4.2);
-      controls.target.set(0, 1.0, 0);
+      camera.position.set(0, 1.0, -3.3);
+      controls.target.set(0, 0.95, 0);
     }
     controls.update();
   };
