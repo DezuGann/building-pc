@@ -4,4 +4,3 @@ dist-ssr
 *.local
 .vscode
 .idea
-.backup_rollback_point
